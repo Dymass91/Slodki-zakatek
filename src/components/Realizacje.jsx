@@ -141,15 +141,37 @@ export default function Realizacje() {
           </button>
         </div>
 
-        {/* Progress */}
+        {/* Progress scrubber */}
         <div className="mt-8 max-w-md mx-auto flex items-center gap-4">
           <span className="text-sm text-rose-500 font-semibold whitespace-nowrap">
             {page + 1} / {totalPages}
           </span>
-          <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
+          <div
+            className="flex-1 h-3 bg-pink-100 rounded-full cursor-pointer relative group"
+            onClick={(e) => {
+              if (locked.current) return
+              const rect = e.currentTarget.getBoundingClientRect()
+              const ratio = (e.clientX - rect.left) / rect.width
+              const target = Math.min(Math.floor(ratio * totalPages), totalPages - 1)
+              if (target === page) return
+              locked.current = true
+              if (trackRef.current) {
+                trackRef.current.style.transition = 'none'
+                trackRef.current.style.transform = 'translateX(-100%)'
+              }
+              setPage(target)
+              requestAnimationFrame(() => requestAnimationFrame(() => { locked.current = false }))
+            }}
+          >
+            {/* Track fill */}
             <div
-              className="h-full bg-rose-400 rounded-full transition-all duration-500"
+              className="h-full bg-rose-400 rounded-full transition-all duration-300 pointer-events-none"
               style={{ width: `${((page + 1) / totalPages) * 100}%` }}
+            />
+            {/* Thumb */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-rose-500 rounded-full shadow-md border-2 border-white transition-all duration-300 pointer-events-none group-hover:scale-125"
+              style={{ left: `calc(${((page + 1) / totalPages) * 100}% - 8px)` }}
             />
           </div>
         </div>
