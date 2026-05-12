@@ -1,36 +1,19 @@
+import heroCake from '../assets/tort pietrowy.jpg'
+
 export default function Hero() {
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(135deg, #be185d 0%, #e11d48 30%, #fb7185 60%, #fda4af 100%)',
-        }}
-      />
-      {/* Decorative circles */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-20"
-        style={{ background: 'radial-gradient(circle, #fff 0%, transparent 70%)', transform: 'translate(30%,-30%)' }} />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10"
-        style={{ background: 'radial-gradient(circle, #fff 0%, transparent 70%)', transform: 'translate(-30%,30%)' }} />
-
-      {/* Floating cake SVG decoration */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 flex items-center justify-center opacity-20 pointer-events-none select-none">
-        <svg viewBox="0 0 300 320" className="w-72 h-80 text-white" fill="currentColor">
-          <ellipse cx="150" cy="290" rx="110" ry="18" opacity=".4"/>
-          <rect x="60" y="210" width="180" height="70" rx="12"/>
-          <rect x="75" y="145" width="150" height="70" rx="12"/>
-          <rect x="95" y="90" width="110" height="60" rx="12"/>
-          <ellipse cx="150" cy="90" rx="55" ry="14"/>
-          <ellipse cx="150" cy="145" rx="75" ry="14"/>
-          <ellipse cx="150" cy="210" rx="90" ry="15"/>
-          <circle cx="150" cy="72" r="12"/>
-          <circle cx="130" cy="60" r="5"/>
-          <circle cx="170" cy="60" r="5"/>
-        </svg>
+      {/* Background photo */}
+      <div className="absolute inset-0">
+        <img
+          src={heroCake}
+          alt="Tort weselny"
+          className="w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-rose-900/75 via-rose-800/50 to-transparent" />
       </div>
 
       {/* Content */}

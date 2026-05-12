@@ -1,21 +1,22 @@
+import imgStandard from '../assets/tortstandardowy.jpg'
+import imgPietrowy from '../assets/tort pietrowy.jpg'
+import imgNaZamowienie from '../assets/tort na zamowienie.jpg'
+
 const offers = [
   {
-    gradient: 'linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)',
-    emoji: '🎂',
+    img: imgStandard,
     title: 'Torty standardowe',
     desc: 'Eleganckie torty jedno- i dwupoziomowe idealne na urodziny, chrzciny i inne uroczystości rodzinne. Biszkopt waniliowy lub czekoladowy, krem do wyboru.',
     tag: 'od 280 zł',
   },
   {
-    gradient: 'linear-gradient(135deg, #ffe4e6 0%, #fda4af 100%)',
-    emoji: '🏰',
+    img: imgPietrowy,
     title: 'Torty piętrowe',
     desc: 'Imponujące wielopiętrowe konstrukcje na wesela i jubileusze. Każde piętro może mieć inny smak kremu i frużeliny — według Twoich życzeń.',
     tag: 'od 500 zł',
   },
   {
-    gradient: 'linear-gradient(135deg, #fff1f2 0%, #fb7185 100%)',
-    emoji: '✨',
+    img: imgNaZamowienie,
     title: 'Torty na zamówienie',
     desc: 'Masz konkretną wizję? Własnoręcznie lepione figurki, toppery, kwiaty cukrowe i słodkie wydruki. Wycena indywidualna dla większych projektów.',
     tag: 'wycena indywidualna',
@@ -43,13 +44,12 @@ export default function Offer() {
         <div className="grid md:grid-cols-3 gap-8">
           {offers.map(o => (
             <div key={o.title} className="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
-              <div
-                className="aspect-[4/3] flex items-center justify-center"
-                style={{ background: o.gradient }}
-              >
-                <span className="text-7xl group-hover:scale-110 transition-transform duration-300 select-none">
-                  {o.emoji}
-                </span>
+              <div className="overflow-hidden aspect-[4/3]">
+                <img
+                  src={o.img}
+                  alt={o.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
