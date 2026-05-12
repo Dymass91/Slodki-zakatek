@@ -1,25 +1,32 @@
 import imgStandard from '../assets/tortstandardowy.jpg'
 import imgPietrowy from '../assets/tort pietrowy.jpg'
 import imgNaZamowienie from '../assets/tort na zamowienie.jpg'
+import imgZastawa from '../assets/zastawastolowa (1).jpg'
 
 const offers = [
   {
     img: imgStandard,
     title: 'Torty standardowe',
-    desc: 'Eleganckie torty jedno- i dwupoziomowe idealne na urodziny, chrzciny i inne uroczystości rodzinne. Biszkopt waniliowy lub czekoladowy, krem do wyboru.',
+    desc: 'Eleganckie torty na urodziny, chrzciny i inne uroczystości rodzinne. Biszkopt waniliowy lub czekoladowy, krem do wyboru.',
     tag: 'od 280 zł',
   },
   {
     img: imgPietrowy,
     title: 'Torty piętrowe',
-    desc: 'Imponujące wielopiętrowe konstrukcje na wesela i jubileusze. Każde piętro może mieć inny smak kremu i frużeliny — według Twoich życzeń.',
+    desc: 'Imponujące wielopiętrowe konstrukcje na wesela i jubileusze. Każde piętro może mieć inny smak kremu i frużeliny.',
     tag: 'od 500 zł',
   },
   {
     img: imgNaZamowienie,
     title: 'Torty na zamówienie',
-    desc: 'Masz konkretną wizję? Własnoręcznie lepione figurki, toppery, kwiaty cukrowe i słodkie wydruki. Wycena indywidualna dla większych projektów.',
+    desc: 'Własnoręcznie lepione figurki, toppery, kwiaty cukrowe i słodkie wydruki. Wycena indywidualna.',
     tag: 'wycena indywidualna',
+  },
+  {
+    img: imgZastawa,
+    title: 'Zastawa stołowa',
+    desc: 'Kompleksowa oprawa słodkiego stołu — estetyczna prezentacja wypieków i słodkości na każdą uroczystość.',
+    tag: 'zapytaj o wycenę',
   },
 ]
 
@@ -41,7 +48,7 @@ export default function Offer() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {offers.map(o => (
             <div key={o.title} className="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
               <div className="overflow-hidden aspect-[4/3]">
@@ -51,13 +58,13 @@ export default function Offer() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-playfair text-xl text-gray-800">{o.title}</h3>
-                  <span className="text-xs font-semibold text-rose-500 bg-rose-50 px-3 py-1 rounded-full whitespace-nowrap ml-2">
-                    {o.tag}
-                  </span>
+              <div className="p-5">
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="font-playfair text-lg text-gray-800 leading-snug">{o.title}</h3>
                 </div>
+                <span className="inline-block text-xs font-semibold text-rose-500 bg-rose-50 px-3 py-1 rounded-full mb-3">
+                  {o.tag}
+                </span>
                 <p className="text-gray-500 text-sm leading-relaxed">{o.desc}</p>
               </div>
             </div>

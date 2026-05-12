@@ -1,4 +1,4 @@
-import logoImg from '../assets/logo.svg'
+import logoImg from '../assets/slodkizakateklogo.jpg'
 
 const stats = [
   { value: '5+', label: 'lat doświadczenia' },
