@@ -13,7 +13,7 @@ export default function Hero() {
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-2 gap-0 items-center min-h-screen">
+      <div className="relative z-10 w-full px-6 grid md:grid-cols-[40%_60%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
         <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
@@ -50,7 +50,7 @@ export default function Hero() {
           <img
             src={heroCake}
             alt="Słodki Zakątek"
-            className="w-full max-w-3xl object-contain drop-shadow-2xl"
+            className="w-full object-contain drop-shadow-2xl"
             style={{ borderRadius: '2rem' }}
           />
         </div>
