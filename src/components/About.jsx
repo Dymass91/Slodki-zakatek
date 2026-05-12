@@ -21,7 +21,7 @@ export default function About() {
             <img
               src={logoImg}
               alt="Słodki Zakątek – Agnieszka Włodarczyk"
-              className="w-4/5 object-contain drop-shadow-2xl"
+              className="w-4/5 object-contain drop-shadow-2xl rounded-3xl"
             />
           </div>
           {/* Floating badge */}
