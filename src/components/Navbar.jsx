@@ -1,6 +1,7 @@
 const links = [
   { href: '#o-nas', label: 'O nas' },
   { href: '#oferta', label: 'Oferta' },
+  { href: '#realizacje', label: 'Realizacje' },
   { href: '#cennik', label: 'Cennik' },
   { href: '#kontakt', label: 'Kontakt' },
 ]
