@@ -47,7 +47,7 @@ export default function Hero() {
 
         {/* Right — image with decorative frame */}
         <div className="hidden md:flex items-center justify-center h-full py-16 px-6">
-          <div style={{ position: 'relative', width: '100%' }}>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
             {/* Offset background layer */}
             <div style={{
               position: 'absolute',
@@ -57,7 +57,7 @@ export default function Hero() {
               background: 'linear-gradient(135deg, rgba(253,164,175,0.5), rgba(251,113,133,0.3))',
               border: '2px solid rgba(253,164,175,0.6)',
             }} />
-            {/* Second decorative ring */}
+            {/* Outer ring */}
             <div style={{
               position: 'absolute',
               inset: '-8px',
@@ -68,12 +68,13 @@ export default function Hero() {
             <img
               src={heroCake}
               alt="Słodki Zakątek"
-              className="w-full object-contain relative"
+              className="relative block"
               style={{
+                maxHeight: '75vh',
+                width: 'auto',
                 borderRadius: '2.5rem',
                 border: '3px solid rgba(255,255,255,0.5)',
                 boxShadow: '0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
-                display: 'block',
               }}
             />
           </div>
