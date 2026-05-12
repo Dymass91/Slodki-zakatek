@@ -3,21 +3,36 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 const globbed = import.meta.glob('../assets/tort*.jpg', { eager: true })
 const allImages = Object.values(globbed).map(m => m.default)
 
-const PER_PAGE = 3
+function usePerPage() {
+  const [perPage, setPerPage] = useState(
+    typeof window !== 'undefined' && window.innerWidth >= 768 ? 3 : 1
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    const handler = (e) => setPerPage(e.matches ? 3 : 1)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  return perPage
+}
 
-function getPageImages(pageIdx, totalPages) {
+function getPageImages(pageIdx, totalPages, perPage) {
   const safe = ((pageIdx % totalPages) + totalPages) % totalPages
-  const start = safe * PER_PAGE
-  return Array.from({ length: PER_PAGE }, (_, i) => allImages[(start + i) % allImages.length])
+  const start = safe * perPage
+  return Array.from({ length: perPage }, (_, i) => allImages[(start + i) % allImages.length])
 }
 
 export default function Realizacje() {
+  const perPage = usePerPage()
   const [page, setPage] = useState(0)
   const [paused, setPaused] = useState(false)
   const trackRef = useRef(null)
   const locked = useRef(false)
 
-  const totalPages = Math.ceil(allImages.length / PER_PAGE)
+  const totalPages = Math.ceil(allImages.length / perPage)
+
+  // Reset page when perPage changes (e.g. screen rotation)
+  useEffect(() => { setPage(0) }, [perPage])
 
   const navigate = useCallback((dir) => {
     if (locked.current || !trackRef.current) return
@@ -39,16 +54,18 @@ export default function Realizacje() {
   }, [totalPages])
 
   useEffect(() => {
-    if (allImages.length < 4 || paused) return
+    if (allImages.length < 2 || paused) return
     const id = setInterval(() => navigate('right'), 4000)
     return () => clearInterval(id)
   }, [navigate, paused])
 
   if (allImages.length === 0) return null
 
-  const prevImages = getPageImages(page - 1, totalPages)
-  const currImages = getPageImages(page,     totalPages)
-  const nextImages = getPageImages(page + 1, totalPages)
+  const prevImages = getPageImages(page - 1, totalPages, perPage)
+  const currImages = getPageImages(page,     totalPages, perPage)
+  const nextImages = getPageImages(page + 1, totalPages, perPage)
+
+  const cols = perPage === 1 ? '1fr' : 'repeat(3, 1fr)'
 
   return (
     <section
@@ -70,7 +87,7 @@ export default function Realizacje() {
         <div className="relative px-8">
           {/* Viewport */}
           <div style={{ overflow: 'hidden' }}>
-            {/* Track — 3 pages side by side, starts showing middle (−100%) */}
+            {/* Track */}
             <div
               ref={trackRef}
               style={{
@@ -81,11 +98,7 @@ export default function Realizacje() {
             >
               {[prevImages, currImages, nextImages].map((imgs, slot) => (
                 <div key={slot} style={{ minWidth: '100%', padding: '4px' }}>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '1.5rem',
-                  }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: cols, gap: '1.5rem' }}>
                     {imgs.map((src, i) => (
                       <div key={i} style={{
                         aspectRatio: '1 / 1',
@@ -107,7 +120,7 @@ export default function Realizacje() {
             </div>
           </div>
 
-          {/* Left arrow */}
+          {/* Arrows */}
           <button
             onClick={() => navigate('left')}
             aria-label="Poprzednie"
@@ -117,8 +130,6 @@ export default function Realizacje() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-
-          {/* Right arrow */}
           <button
             onClick={() => navigate('right')}
             aria-label="Następne"
