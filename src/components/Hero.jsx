@@ -1,4 +1,4 @@
-import heroCake from '../assets/18mariki.jfif'
+import heroCake from '../assets/18mariki2.png'
 
 export default function Hero() {
   return (
