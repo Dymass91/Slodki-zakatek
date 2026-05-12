@@ -13,7 +13,7 @@ export default function Hero() {
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[55%_45%] gap-0 items-center min-h-screen">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[45%_55%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
         <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
