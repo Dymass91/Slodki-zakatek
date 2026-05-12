@@ -50,7 +50,7 @@ export default function Hero() {
           <img
             src={heroCake}
             alt="Słodki Zakątek"
-            className="w-full max-w-lg object-contain drop-shadow-2xl"
+            className="w-full max-w-2xl object-contain drop-shadow-2xl"
             style={{ borderRadius: '2rem' }}
           />
         </div>
