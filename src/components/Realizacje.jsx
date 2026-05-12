@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 const globbed = import.meta.glob('../assets/tort*.jpg', { eager: true })
 const images = Object.values(globbed).map(m => m.default)
@@ -7,18 +7,25 @@ const PER_PAGE = 3
 
 export default function Realizacje() {
   const [current, setCurrent] = useState(0)
+  const [direction, setDirection] = useState('right')
+  const [animKey, setAnimKey] = useState(0)
   const [paused, setPaused] = useState(false)
-
   const total = images.length
 
-  const prev = useCallback(() => setCurrent(c => (c - 1 + total) % total), [total])
-  const next = useCallback(() => setCurrent(c => (c + 1) % total), [total])
+  const navigate = useCallback((dir) => {
+    setDirection(dir)
+    setAnimKey(k => k + 1)
+    setCurrent(c => dir === 'right'
+      ? (c + 1) % total
+      : (c - 1 + total) % total
+    )
+  }, [total])
 
   useEffect(() => {
     if (total < 2 || paused) return
-    const id = setInterval(next, 3500)
+    const id = setInterval(() => navigate('right'), 3500)
     return () => clearInterval(id)
-  }, [next, total, paused])
+  }, [navigate, total, paused])
 
   if (total === 0) {
     return (
@@ -40,8 +47,7 @@ export default function Realizacje() {
 
   const visible = Math.min(PER_PAGE, total)
   const visibleIndices = Array.from({ length: visible }, (_, i) => (current + i) % total)
-
-  // Progress bar width
+  const animClass = direction === 'right' ? 'slide-from-right' : 'slide-from-left'
   const progress = ((current + 1) / total) * 100
 
   return (
@@ -63,11 +69,15 @@ export default function Realizacje() {
 
         {/* Slider */}
         <div className="relative px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            key={animKey}
+            className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${animClass}`}
+          >
             {visibleIndices.map((idx, pos) => (
               <div
                 key={`${idx}-${pos}`}
                 className="rounded-3xl overflow-hidden shadow-md aspect-square"
+                style={{ animationDelay: `${pos * 60}ms` }}
               >
                 <img
                   src={images[idx]}
@@ -80,7 +90,7 @@ export default function Realizacje() {
 
           {/* Arrows */}
           <button
-            onClick={prev}
+            onClick={() => navigate('left')}
             aria-label="Poprzednie"
             className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors"
           >
@@ -89,7 +99,7 @@ export default function Realizacje() {
             </svg>
           </button>
           <button
-            onClick={next}
+            onClick={() => navigate('right')}
             aria-label="Następne"
             className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors"
           >

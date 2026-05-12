@@ -33,3 +33,21 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-playfair);
 }
+
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(60px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0)    scale(1);    }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-60px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0)     scale(1);    }
+}
+
+.slide-from-right {
+  animation: slideFromRight 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-from-left {
+  animation: slideFromLeft 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
