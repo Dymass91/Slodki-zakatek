@@ -13,14 +13,14 @@ export default function Hero() {
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[32%_68%] gap-0 items-center min-h-screen">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[44%_56%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
         <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
           <p className="text-pink-200 tracking-widest uppercase text-sm mb-5">
             Ręcznie robione z miłością
           </p>
-          <h1 className="font-playfair text-5xl md:text-6xl leading-tight mb-6">
+          <h1 className="font-playfair text-4xl md:text-5xl leading-tight mb-6">
             Torty, które<br />
             <em className="text-yellow-200">zachwycają</em><br />
             smakiem i wyglądem
