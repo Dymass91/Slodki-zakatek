@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 100" width="260" height="100">
+  <defs>
+    <style>
+      .t1 { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 36px; fill: #be185d; }
+      .t2 { font-family: 'Lato', Arial, sans-serif; font-size: 13px; fill: #9d174d; letter-spacing: 2px; }
+    </style>
+  </defs>
+  <!-- Decorative rose -->
+  <circle cx="22" cy="50" r="18" fill="#fce7f3"/>
+  <circle cx="22" cy="50" r="12" fill="#fda4af"/>
+  <circle cx="22" cy="50" r="6" fill="#fb7185"/>
+  <!-- Text -->
+  <text x="48" y="58" class="t1">Słodki Zakątek</text>
+  <text x="50" y="76" class="t2">AGNIESZKA WŁODARCZYK</text>
+</svg>
