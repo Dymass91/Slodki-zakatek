@@ -13,7 +13,7 @@ export default function Hero() {
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[38%_62%] gap-0 items-center min-h-screen">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[32%_68%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
         <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
@@ -45,14 +45,38 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right — image, full quality, no crop */}
-        <div className="hidden md:flex items-center justify-center h-full py-24">
-          <img
-            src={heroCake}
-            alt="Słodki Zakątek"
-            className="w-full object-contain drop-shadow-2xl"
-            style={{ borderRadius: '2rem' }}
-          />
+        {/* Right — image with decorative frame */}
+        <div className="hidden md:flex items-center justify-center h-full py-16 px-6">
+          <div style={{ position: 'relative', width: '100%' }}>
+            {/* Offset background layer */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              transform: 'translate(16px, 16px)',
+              borderRadius: '2.5rem',
+              background: 'linear-gradient(135deg, rgba(253,164,175,0.5), rgba(251,113,133,0.3))',
+              border: '2px solid rgba(253,164,175,0.6)',
+            }} />
+            {/* Second decorative ring */}
+            <div style={{
+              position: 'absolute',
+              inset: '-8px',
+              borderRadius: '2.8rem',
+              border: '1.5px solid rgba(255,255,255,0.2)',
+            }} />
+            {/* Image */}
+            <img
+              src={heroCake}
+              alt="Słodki Zakątek"
+              className="w-full object-contain relative"
+              style={{
+                borderRadius: '2.5rem',
+                border: '3px solid rgba(255,255,255,0.5)',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
+                display: 'block',
+              }}
+            />
+          </div>
         </div>
 
       </div>
