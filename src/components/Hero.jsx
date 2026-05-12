@@ -1,4 +1,4 @@
-import heroCake from '../assets/hero2.jpg'
+import heroCake from '../assets/headerimgslodkizakatek.png'
 
 export default function Hero() {
   return (
