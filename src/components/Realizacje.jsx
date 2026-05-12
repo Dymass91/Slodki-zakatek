@@ -1,33 +1,54 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const globbed = import.meta.glob('../assets/tort*.jpg', { eager: true })
-const images = Object.values(globbed).map(m => m.default)
+const allImages = Object.values(globbed).map(m => m.default)
 
 const PER_PAGE = 3
 
+function getPageImages(pageIdx, totalPages) {
+  const safePage = ((pageIdx % totalPages) + totalPages) % totalPages
+  const start = safePage * PER_PAGE
+  return Array.from({ length: PER_PAGE }, (_, i) => allImages[(start + i) % allImages.length])
+}
+
 export default function Realizacje() {
-  const [current, setCurrent] = useState(0)
-  const [direction, setDirection] = useState('right')
-  const [animKey, setAnimKey] = useState(0)
+  const [page, setPage] = useState(0)
   const [paused, setPaused] = useState(false)
-  const total = images.length
+  const trackRef = useRef(null)
+  const locked = useRef(false)
+
+  const totalPages = Math.ceil(allImages.length / PER_PAGE)
 
   const navigate = useCallback((dir) => {
-    setDirection(dir)
-    setAnimKey(k => k + 1)
-    setCurrent(c => dir === 'right'
-      ? (c + 1) % total
-      : (c - 1 + total) % total
-    )
-  }, [total])
+    if (locked.current || !trackRef.current) return
+    locked.current = true
+
+    const track = trackRef.current
+    const toX = dir === 'right' ? '-200%' : '0%'
+
+    track.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)'
+    track.style.transform = `translateX(${toX})`
+
+    setTimeout(() => {
+      setPage(p => dir === 'right'
+        ? (p + 1) % totalPages
+        : (p - 1 + totalPages) % totalPages
+      )
+      track.style.transition = 'none'
+      track.style.transform = 'translateX(-100%)'
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        locked.current = false
+      }))
+    }, 560)
+  }, [totalPages])
 
   useEffect(() => {
-    if (total < 2 || paused) return
-    const id = setInterval(() => navigate('right'), 3500)
+    if (allImages.length < 4 || paused) return
+    const id = setInterval(() => navigate('right'), 4000)
     return () => clearInterval(id)
-  }, [navigate, total, paused])
+  }, [navigate, paused])
 
-  if (total === 0) {
+  if (allImages.length === 0) {
     return (
       <section id="realizacje" className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6 text-center">
@@ -45,10 +66,11 @@ export default function Realizacje() {
     )
   }
 
-  const visible = Math.min(PER_PAGE, total)
-  const visibleIndices = Array.from({ length: visible }, (_, i) => (current + i) % total)
-  const animClass = direction === 'right' ? 'slide-from-right' : 'slide-from-left'
-  const progress = ((current + 1) / total) * 100
+  const prevImages = getPageImages(page - 1, totalPages)
+  const currImages = getPageImages(page,     totalPages)
+  const nextImages = getPageImages(page + 1, totalPages)
+
+  const progress = ((page + 1) / totalPages) * 100
 
   return (
     <section
@@ -67,32 +89,46 @@ export default function Realizacje() {
           </p>
         </div>
 
-        {/* Slider */}
+        {/* Slider track */}
         <div className="relative px-8">
-          <div
-            key={animKey}
-            className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${animClass}`}
-          >
-            {visibleIndices.map((idx, pos) => (
-              <div
-                key={`${idx}-${pos}`}
-                className="rounded-3xl overflow-hidden shadow-md aspect-square"
-                style={{ animationDelay: `${pos * 60}ms` }}
-              >
-                <img
-                  src={images[idx]}
-                  alt={`Realizacja ${idx + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            ))}
+          <div style={{ overflow: 'hidden', borderRadius: '1.5rem' }}>
+            {/* Track: 3 pages wide, starts at -100% to show middle */}
+            <div
+              ref={trackRef}
+              style={{
+                display: 'flex',
+                width: '300%',
+                transform: 'translateX(-100%)',
+                willChange: 'transform',
+              }}
+            >
+              {[prevImages, currImages, nextImages].map((imgs, pagePos) => (
+                <div
+                  key={pagePos}
+                  style={{ width: '33.3333%', flexShrink: 0, padding: '0 0.75rem', boxSizing: 'border-box' }}
+                >
+                  <div className="grid grid-cols-3 gap-6">
+                    {imgs.map((src, i) => (
+                      <div key={i} className="rounded-3xl overflow-hidden shadow-md aspect-square">
+                        <img
+                          src={src}
+                          alt={`Realizacja`}
+                          className="w-full h-full object-cover"
+                          draggable={false}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Arrows */}
           <button
             onClick={() => navigate('left')}
             aria-label="Poprzednie"
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors z-10"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -101,7 +137,7 @@ export default function Realizacje() {
           <button
             onClick={() => navigate('right')}
             aria-label="Następne"
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg border border-pink-100 flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-colors z-10"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -113,7 +149,7 @@ export default function Realizacje() {
         <div className="mt-8 max-w-md mx-auto">
           <div className="flex items-center gap-4">
             <span className="text-sm text-rose-500 font-semibold whitespace-nowrap">
-              {current + 1} / {total}
+              {page + 1} / {totalPages}
             </span>
             <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
               <div
