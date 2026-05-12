@@ -6,8 +6,8 @@ const allImages = Object.values(globbed).map(m => m.default)
 const PER_PAGE = 3
 
 function getPageImages(pageIdx, totalPages) {
-  const safePage = ((pageIdx % totalPages) + totalPages) % totalPages
-  const start = safePage * PER_PAGE
+  const safe = ((pageIdx % totalPages) + totalPages) % totalPages
+  const start = safe * PER_PAGE
   return Array.from({ length: PER_PAGE }, (_, i) => allImages[(start + i) % allImages.length])
 }
 
@@ -24,10 +24,8 @@ export default function Realizacje() {
     locked.current = true
 
     const track = trackRef.current
-    const toX = dir === 'right' ? '-200%' : '0%'
-
-    track.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)'
-    track.style.transform = `translateX(${toX})`
+    track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+    track.style.transform = dir === 'right' ? 'translateX(-200%)' : 'translateX(0%)'
 
     setTimeout(() => {
       setPage(p => dir === 'right'
@@ -36,10 +34,8 @@ export default function Realizacje() {
       )
       track.style.transition = 'none'
       track.style.transform = 'translateX(-100%)'
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        locked.current = false
-      }))
-    }, 560)
+      requestAnimationFrame(() => requestAnimationFrame(() => { locked.current = false }))
+    }, 510)
   }, [totalPages])
 
   useEffect(() => {
@@ -48,29 +44,11 @@ export default function Realizacje() {
     return () => clearInterval(id)
   }, [navigate, paused])
 
-  if (allImages.length === 0) {
-    return (
-      <section id="realizacje" className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-rose-500 font-semibold tracking-widest uppercase text-sm mb-3">Galeria</p>
-          <h2 className="font-playfair text-4xl md:text-5xl text-gray-800 mb-10">Nasze realizacje</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="aspect-square rounded-2xl bg-pink-50 border-2 border-dashed border-pink-200 flex items-center justify-center">
-                <span className="text-4xl select-none">🎂</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
+  if (allImages.length === 0) return null
 
   const prevImages = getPageImages(page - 1, totalPages)
   const currImages = getPageImages(page,     totalPages)
   const nextImages = getPageImages(page + 1, totalPages)
-
-  const progress = ((page + 1) / totalPages) * 100
 
   return (
     <section
@@ -89,32 +67,37 @@ export default function Realizacje() {
           </p>
         </div>
 
-        {/* Slider track */}
         <div className="relative px-8">
-          <div style={{ overflow: 'hidden', borderRadius: '1.5rem' }}>
-            {/* Track: 3 pages wide, starts at -100% to show middle */}
+          {/* Viewport */}
+          <div style={{ overflow: 'hidden' }}>
+            {/* Track — 3 pages side by side, starts showing middle (−100%) */}
             <div
               ref={trackRef}
               style={{
                 display: 'flex',
-                width: '300%',
                 transform: 'translateX(-100%)',
                 willChange: 'transform',
               }}
             >
-              {[prevImages, currImages, nextImages].map((imgs, pagePos) => (
-                <div
-                  key={pagePos}
-                  style={{ width: '33.3333%', flexShrink: 0, padding: '0 0.75rem', boxSizing: 'border-box' }}
-                >
-                  <div className="grid grid-cols-3 gap-6">
+              {[prevImages, currImages, nextImages].map((imgs, slot) => (
+                <div key={slot} style={{ minWidth: '100%', padding: '4px' }}>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '1.5rem',
+                  }}>
                     {imgs.map((src, i) => (
-                      <div key={i} className="rounded-3xl overflow-hidden shadow-md aspect-square">
+                      <div key={i} style={{
+                        aspectRatio: '1 / 1',
+                        borderRadius: '1.5rem',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+                      }}>
                         <img
                           src={src}
-                          alt={`Realizacja`}
-                          className="w-full h-full object-cover"
+                          alt="Realizacja"
                           draggable={false}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
                       </div>
                     ))}
@@ -124,7 +107,7 @@ export default function Realizacje() {
             </div>
           </div>
 
-          {/* Arrows */}
+          {/* Left arrow */}
           <button
             onClick={() => navigate('left')}
             aria-label="Poprzednie"
@@ -134,6 +117,8 @@ export default function Realizacje() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
+
+          {/* Right arrow */}
           <button
             onClick={() => navigate('right')}
             aria-label="Następne"
@@ -145,18 +130,16 @@ export default function Realizacje() {
           </button>
         </div>
 
-        {/* Progress bar + counter */}
-        <div className="mt-8 max-w-md mx-auto">
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-rose-500 font-semibold whitespace-nowrap">
-              {page + 1} / {totalPages}
-            </span>
-            <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-rose-400 rounded-full transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+        {/* Progress */}
+        <div className="mt-8 max-w-md mx-auto flex items-center gap-4">
+          <span className="text-sm text-rose-500 font-semibold whitespace-nowrap">
+            {page + 1} / {totalPages}
+          </span>
+          <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-rose-400 rounded-full transition-all duration-500"
+              style={{ width: `${((page + 1) / totalPages) * 100}%` }}
+            />
           </div>
         </div>
 
