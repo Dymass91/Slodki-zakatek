@@ -16,7 +16,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[44%_56%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
-        <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
+        <div className="text-white pt-24 pb-8 md:py-0 pr-0 md:pr-10">
           <p className="text-pink-200 tracking-widest uppercase text-sm mb-5">
             Ręcznie robione z miłością
           </p>
@@ -46,7 +46,7 @@ export default function Hero() {
         </div>
 
         {/* Right — image with decorative frame */}
-        <div className="hidden md:flex items-center justify-center h-full py-16 px-6">
+        <div className="flex items-center justify-center pb-12 md:pb-0 md:h-full md:py-16 px-6">
           <div style={{ position: 'relative', display: 'inline-block' }}>
             {/* Offset background layer */}
             <div style={{
@@ -68,9 +68,8 @@ export default function Hero() {
             <img
               src={heroCake}
               alt="Słodki Zakątek"
-              className="relative block"
+              className="relative block max-h-[45vh] md:max-h-[75vh]"
               style={{
-                maxHeight: '75vh',
                 width: 'auto',
                 borderRadius: '2.5rem',
                 border: '3px solid rgba(255,255,255,0.5)',
