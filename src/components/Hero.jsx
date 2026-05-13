@@ -7,16 +7,31 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #881337 0%, #be185d 40%, #e11d48 100%)' }}
     >
-      {/* Decorative soft circle behind image */}
+      {/* Mobile-only: hero image as background with pink overlay */}
       <div
-        className="absolute right-0 top-0 h-full w-1/2 pointer-events-none"
+        className="absolute inset-0 md:hidden"
+        style={{
+          backgroundImage: `url(${heroCake})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+        }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, rgba(136,19,55,0.82) 0%, rgba(190,24,93,0.75) 40%, rgba(225,29,72,0.68) 100%)' }}
+        />
+      </div>
+
+      {/* Decorative soft circle behind image (desktop) */}
+      <div
+        className="absolute right-0 top-0 h-full w-1/2 pointer-events-none hidden md:block"
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full grid md:grid-cols-[44%_56%] gap-0 items-center min-h-screen">
 
         {/* Left — text */}
-        <div className="text-white pt-24 pb-8 md:py-0 pr-0 md:pr-10">
+        <div className="text-white py-32 md:py-0 pr-0 md:pr-10">
           <p className="text-pink-200 tracking-widest uppercase text-sm mb-5">
             Ręcznie robione z miłością
           </p>
@@ -45,8 +60,8 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right — image with decorative frame */}
-        <div className="flex items-center justify-center pb-12 md:pb-0 md:h-full md:py-16 px-6">
+        {/* Right — image with decorative frame (desktop only) */}
+        <div className="hidden md:flex items-center justify-center h-full py-16 px-6">
           <div style={{ position: 'relative', display: 'inline-block' }}>
             {/* Offset background layer */}
             <div style={{
@@ -68,8 +83,9 @@ export default function Hero() {
             <img
               src={heroCake}
               alt="Słodki Zakątek"
-              className="relative block max-h-[45vh] md:max-h-[75vh]"
+              className="relative block"
               style={{
+                maxHeight: '75vh',
                 width: 'auto',
                 borderRadius: '2.5rem',
                 border: '3px solid rgba(255,255,255,0.5)',
