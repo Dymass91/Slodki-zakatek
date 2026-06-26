@@ -84,7 +84,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <button
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer bg-transparent border-none p-2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer bg-transparent border-none p-2 z-10"
         onClick={() => document.getElementById('o-nas')?.scrollIntoView({ behavior: 'smooth' })}
         aria-label="Przewiń w dół"
       >
