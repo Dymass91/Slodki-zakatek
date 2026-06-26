@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 
 export default function ClosedPopup() {
   const [visible, setVisible] = useState(false)
+  const [animated, setAnimated] = useState(false)
 
   useEffect(() => {
     setVisible(true)
+    setTimeout(() => setAnimated(true), 10)
   }, [])
 
   if (!visible) return null
@@ -12,7 +14,11 @@ export default function ClosedPopup() {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0,0,0,0.55)' }}
+      style={{
+        backgroundColor: 'rgba(0,0,0,0.55)',
+        opacity: animated ? 1 : 0,
+        transition: 'opacity 0.3s ease',
+      }}
       onClick={() => setVisible(false)}
     >
       <div
@@ -20,6 +26,9 @@ export default function ClosedPopup() {
         style={{
           background: 'linear-gradient(160deg, #fce4ec 0%, #f8bbd0 40%, #f48fb1 100%)',
           border: '3px solid #f06292',
+          transform: animated ? 'scale(1) translateY(0)' : 'scale(0.85) translateY(40px)',
+          opacity: animated ? 1 : 0,
+          transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease',
         }}
         onClick={(e) => e.stopPropagation()}
       >
