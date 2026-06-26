@@ -7,24 +7,9 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #881337 0%, #be185d 40%, #e11d48 100%)' }}
     >
-      {/* Mobile-only: hero image as background with pink overlay */}
+      {/* Decorative soft circle behind image */}
       <div
-        className="absolute inset-0 md:hidden"
-        style={{
-          backgroundImage: `url(${heroCake})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center top',
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, rgba(136,19,55,0.82) 0%, rgba(190,24,93,0.75) 40%, rgba(225,29,72,0.68) 100%)' }}
-        />
-      </div>
-
-      {/* Decorative soft circle behind image (desktop) */}
-      <div
-        className="absolute right-0 top-0 h-full w-1/2 pointer-events-none hidden md:block"
+        className="absolute right-0 top-0 h-full w-1/2 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }}
       />
 
