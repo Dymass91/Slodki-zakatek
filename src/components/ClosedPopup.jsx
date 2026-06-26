@@ -16,7 +16,7 @@ export default function ClosedPopup() {
       onClick={() => setVisible(false)}
     >
       <div
-        className="relative max-w-sm w-full rounded-3xl overflow-hidden shadow-2xl"
+        className="relative w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden shadow-2xl"
         style={{
           background: 'linear-gradient(160deg, #fce4ec 0%, #f8bbd0 40%, #f48fb1 100%)',
           border: '3px solid #f06292',
@@ -25,7 +25,7 @@ export default function ClosedPopup() {
       >
         {/* Bow at top */}
         <div className="flex justify-center pt-4">
-          <span className="text-5xl" style={{ filter: 'drop-shadow(0 2px 4px #f06292aa)' }}>🎀</span>
+          <span className="text-7xl" style={{ filter: 'drop-shadow(0 2px 4px #f06292aa)' }}>🎀</span>
         </div>
 
         {/* Warning banner */}
@@ -38,8 +38,8 @@ export default function ClosedPopup() {
             }}
           />
           <div className="bg-yellow-50 text-center py-2 px-3">
-            <p className="font-extrabold text-red-600 text-base leading-tight tracking-wide">UWAGA!</p>
-            <p className="font-extrabold text-gray-800 text-sm leading-tight">PRACOWNIA NIECZYNNA</p>
+            <p className="font-extrabold text-red-600 text-2xl leading-tight tracking-wide">UWAGA!</p>
+            <p className="font-extrabold text-gray-800 text-xl leading-tight">PRACOWNIA NIECZYNNA</p>
           </div>
           <div
             className="h-4 w-full"
@@ -50,7 +50,7 @@ export default function ClosedPopup() {
         </div>
 
         {/* Body text */}
-        <div className="mx-5 my-4 text-center text-gray-800 text-sm leading-relaxed">
+        <div className="mx-8 my-5 text-center text-gray-800 text-base leading-relaxed">
           <p>
             Z powodu operacji kręgosłupa oraz komplikacji <em>w trakcie operacji</em> i okresu{' '}
             <strong>rehabilitacji</strong> pracownia tortów{' '}
@@ -69,7 +69,7 @@ export default function ClosedPopup() {
         <div className="flex justify-center pb-5">
           <button
             onClick={() => setVisible(false)}
-            className="px-8 py-2 rounded-full font-bold text-white text-sm shadow-lg transition-transform hover:scale-105 active:scale-95"
+            className="px-10 py-3 rounded-full font-bold text-white text-base shadow-lg transition-transform hover:scale-105 active:scale-95"
             style={{ background: 'linear-gradient(90deg, #e91e8c, #f06292)' }}
           >
             Zamknij
