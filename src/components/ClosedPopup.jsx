@@ -57,10 +57,10 @@ export default function ClosedPopup() {
             <span className="font-bold" style={{ fontFamily: 'cursive', color: '#c2185b' }}>
               Słodki Zakątek
             </span>{' '}
-            będzie przez dłuższy czas <strong>nieczynna.</strong> 🩷
+            będzie przez dłuższy czas <strong>nieczynna.</strong> ♥
           </p>
           <p className="mt-2">
-            Na bieżąco będziemy informować o powrocie działalności pracowni. 🩷
+            Na bieżąco będziemy informować o powrocie działalności pracowni. ♥
           </p>
           <p className="mt-2 italic font-semibold text-pink-700">Przepraszamy za utrudnienia!</p>
         </div>
