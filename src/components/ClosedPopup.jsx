@@ -9,6 +9,11 @@ export default function ClosedPopup() {
     setTimeout(() => setAnimated(true), 10)
   }, [])
 
+  const close = () => {
+    setAnimated(false)
+    setTimeout(() => setVisible(false), 350)
+  }
+
   if (!visible) return null
 
   return (
@@ -19,7 +24,7 @@ export default function ClosedPopup() {
         opacity: animated ? 1 : 0,
         transition: 'opacity 0.3s ease',
       }}
-      onClick={() => setVisible(false)}
+      onClick={close}
     >
       <div
         className="relative w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden shadow-2xl"
@@ -77,7 +82,7 @@ export default function ClosedPopup() {
         {/* Close button */}
         <div className="flex justify-center pb-5">
           <button
-            onClick={() => setVisible(false)}
+            onClick={close}
             className="px-10 py-3 rounded-full font-bold text-white text-base shadow-lg transition-transform hover:scale-105 active:scale-95"
             style={{ background: 'linear-gradient(90deg, #e91e8c, #f06292)' }}
           >
