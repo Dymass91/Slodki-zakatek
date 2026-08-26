@@ -268,7 +268,7 @@ export default function Hero() {
       {/* 2. Darkening overlay — its width follows the drag handle instead of a fixed 50%. */}
       <div
         className={`absolute left-0 top-0 h-full pointer-events-none hidden md:block ${splitTransitionClass}`}
-        style={{ width: `${dragPos}%`, background: 'rgba(20,7,14,0.72)' }}
+        style={{ width: `${dragPos}%`, background: 'rgba(76,5,25,0.72)' }}
       />
 
       {/* Right half — subtle warm tint, follows the same split point from the other side */}
