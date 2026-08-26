@@ -336,12 +336,12 @@ export default function Hero() {
               </p>
 
               {/* Buttons row: same photo/white slot pair as the words, so dragging the seam over a button re-styles it too. */}
-              <div className="mt-8 flex gap-4 justify-center md:grid md:grid-cols-2 md:gap-0">
+              <div className="mt-8 flex gap-4 justify-center items-center md:grid md:grid-cols-2 md:items-center md:gap-0">
                 {/* Left button slot: photo-fill underneath (always clickable), solid white/rose on top clipped to the right of the seam. */}
-                <div ref={(el) => { leftBtnRefs.current[i] = el }} className="relative md:justify-self-end md:mr-4">
+                <div ref={(el) => { leftBtnRefs.current[i] = el }} className="relative w-52 md:justify-self-end md:mr-4">
                   <a
                     href="#o-nas"
-                    className="block whitespace-nowrap text-center font-semibold px-8 py-3 rounded-full border-2 border-white text-white transition-all duration-300 hover:scale-[1.03] shadow-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.9),0_0_24px_rgba(255,255,255,0.6),0_0_44px_rgba(255,255,255,0.4)]"
+                    className="block w-full whitespace-nowrap text-center font-semibold px-8 py-3 rounded-full border-2 border-white text-white transition-all duration-300 hover:scale-[1.03] shadow-lg hover:shadow-[0_0_10px_rgba(255,255,255,0.9),0_0_24px_rgba(255,255,255,0.6),0_0_44px_rgba(255,255,255,0.4)]"
                     style={photoBtnStyle(s.img, leftBtnBgPositions[i])}
                   >
                     Nasza historia
@@ -356,10 +356,10 @@ export default function Hero() {
                 </div>
 
                 {/* Right button slot: solid white/rose underneath (always clickable), photo-fill on top clipped in from the right. */}
-                <div ref={(el) => { rightBtnRefs.current[i] = el }} className="relative md:justify-self-start md:ml-4">
+                <div ref={(el) => { rightBtnRefs.current[i] = el }} className="relative w-52 md:justify-self-start md:ml-4">
                   <a
                     href="#cennik"
-                    className="block whitespace-nowrap text-center font-semibold px-8 py-3 rounded-full bg-white text-rose-600 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_10px_rgba(244,63,94,0.9),0_0_24px_rgba(244,63,94,0.6),0_0_44px_rgba(244,63,94,0.4)]"
+                    className="block w-full whitespace-nowrap text-center font-semibold px-8 py-3 rounded-full bg-white text-rose-600 transition-all duration-300 hover:scale-[1.03] shadow-md hover:shadow-[0_0_10px_rgba(244,63,94,0.9),0_0_24px_rgba(244,63,94,0.6),0_0_44px_rgba(244,63,94,0.4)]"
                   >
                     Zobacz cennik
                   </a>
