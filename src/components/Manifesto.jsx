@@ -1,20 +1,26 @@
 import artwork from '../assets/manifesto-artwork.png'
 import RevealText from './primitives/RevealText'
 import SectionLabel from './primitives/SectionLabel'
+import useSceneFade from '../hooks/useSceneFade'
 
 export default function Manifesto() {
+  const [fadeRef, fadeStyle] = useSceneFade('scene-wedding')
   return (
-    <section className="relative bg-[var(--color-blush)]">
+    <>
       {/* Desktop / tablet: the prepared artwork IS the section background — cake stays
-          anchored to the right, empty left area holds the real HTML typography. */}
+          anchored to the right, empty left area holds the real HTML typography.
+          This is the FIRST panel in the shared editorial stacked-scroll sequence
+          (continues through Wedding / Custom 02 / Custom 03 in CakeStory). */}
       <div
-        className="hidden md:flex relative items-center overflow-hidden"
+        id="scene-manifesto"
+        className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px] sticky top-0"
         style={{
-          minHeight: '88vh',
+          zIndex: 1,
           backgroundImage: `url(${artwork})`,
           backgroundSize: 'cover',
           backgroundPosition: 'right center',
           backgroundRepeat: 'no-repeat',
+          ...fadeStyle,
         }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
@@ -64,6 +70,7 @@ export default function Manifesto() {
           (scaled up + cropped so the cake reads large, right side, allowed to bleed off-edge),
           with the HTML typography layered directly on top. Not a banner + text stack. */}
       <div
+        ref={fadeRef}
         className="md:hidden relative overflow-hidden"
         style={{
           height: 'clamp(850px, 220vw, 1000px)',
@@ -72,6 +79,7 @@ export default function Manifesto() {
           backgroundPosition: '82% 38%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: 'var(--color-blush)',
+          ...fadeStyle,
         }}
       >
         <div className="relative z-10 h-full flex flex-col px-6 pt-16">
@@ -117,6 +125,6 @@ export default function Manifesto() {
           </div>
         </div>
       </div>
-    </section>
+    </>
   )
 }

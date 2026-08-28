@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import logo from '../assets/logo-mark.png'
 
 const links = [
   { href: '#o-nas', label: 'O nas' },
@@ -8,37 +9,15 @@ const links = [
   { href: '#kontakt', label: 'Kontakt' },
 ]
 
-function Brand({ dark }) {
+function Brand() {
   return (
-    <a href="#hero" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-      <div
-        style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontStyle: 'italic',
-          fontWeight: 600,
-          fontSize: '1.2rem',
-          color: dark ? '#9d174d' : 'var(--color-plum)',
-          letterSpacing: '0.01em',
-          lineHeight: 1,
-          transition: 'color 0.4s ease',
-        }}
-      >
-        Słodki Zakątek
-      </div>
-      <div
-        style={{
-          fontFamily: "'Lato', Arial, sans-serif",
-          fontWeight: 400,
-          fontSize: '0.56rem',
-          color: dark ? '#be185d' : 'var(--color-plum)',
-          opacity: dark ? 0.85 : 0.55,
-          letterSpacing: '0.28em',
-          textTransform: 'uppercase',
-          transition: 'color 0.4s ease, opacity 0.4s ease',
-        }}
-      >
-        Agnieszka Włodarczyk
-      </div>
+    <a href="#hero" className="flex items-center shrink-0">
+      <img
+        src={logo}
+        alt="Słodki Zakątek — Agnieszka Włodarczyk"
+        className="h-10 md:h-12 w-auto object-contain"
+        draggable={false}
+      />
     </a>
   )
 }
@@ -62,8 +41,9 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 isolate"
         style={{
+          zIndex: 100,
           background: scrolled ? 'rgba(255,249,245,0.9)' : 'transparent',
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
           WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
@@ -79,7 +59,7 @@ export default function Navbar() {
             transition: 'padding 0.4s ease',
           }}
         >
-          <Brand dark={scrolled} />
+          <Brand />
 
           <ul className="hidden md:flex items-center gap-8">
             {links.map((l) => (
@@ -134,8 +114,9 @@ export default function Navbar() {
 
       {/* Mobile full-screen menu */}
       <div
-        className="md:hidden fixed inset-0 z-[60] flex flex-col"
+        className="md:hidden fixed inset-0 flex flex-col"
         style={{
+          zIndex: 110,
           background: 'var(--color-cream)',
           opacity: menuOpen ? 1 : 0,
           visibility: menuOpen ? 'visible' : 'hidden',
@@ -143,7 +124,7 @@ export default function Navbar() {
         }}
       >
         <div className="flex items-center justify-between px-6 pt-[1.1rem] pb-4">
-          <Brand dark />
+          <Brand />
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Zamknij menu"

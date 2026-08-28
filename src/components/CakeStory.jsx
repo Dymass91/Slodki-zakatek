@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import weddingArtwork from '../assets/wedding-scene-artwork.png'
 import customArtwork from '../assets/custom-scene-artwork.png'
 import colorfulArtwork from '../assets/colorful-scene-artwork.png'
+import useSceneFade from '../hooks/useSceneFade'
 
 // Wedding scene is fully art-directed: the prepared artwork already contains the real
 // cake, warm cream background and watercolor texture, so it's used as the scene's own
@@ -9,6 +10,7 @@ import colorfulArtwork from '../assets/colorful-scene-artwork.png'
 // text-column + isolated-cake layout the other two scenes use.
 function WeddingScene() {
   const ref = useRef(null)
+  const [fadeRef, fadeStyle] = useSceneFade('scene-custom02')
   const [active, setActive] = useState(false)
 
   useEffect(() => {
@@ -27,9 +29,10 @@ function WeddingScene() {
 
   return (
     <div
-      ref={ref}
+      id="scene-wedding"
+      ref={(el) => { ref.current = el; fadeRef.current = el }}
       className="sticky top-0 overflow-hidden"
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 2, ...fadeStyle }}
     >
       {/* Desktop / tablet */}
       <div
@@ -131,6 +134,7 @@ function WeddingScene() {
 // texture, so it's used as the scene's own background instead of an isolated cutout.
 function CustomScene() {
   const ref = useRef(null)
+  const [fadeRef, fadeStyle] = useSceneFade('scene-custom03')
   const [active, setActive] = useState(false)
 
   useEffect(() => {
@@ -150,7 +154,12 @@ function CustomScene() {
   const heading = ['A czasem…', 'bez żadnych', 'zasad.']
 
   return (
-    <div ref={ref} className="sticky top-0 overflow-hidden" style={{ zIndex: 2 }}>
+    <div
+      id="scene-custom02"
+      ref={(el) => { ref.current = el; fadeRef.current = el }}
+      className="sticky top-0 overflow-hidden"
+      style={{ zIndex: 3, ...fadeStyle }}
+    >
       {/* Desktop / tablet */}
       <div
         className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px]"
@@ -273,7 +282,7 @@ function ColorfulScene() {
   const sub = 'Od pierwszego pomysłu po ostatni detal.'
 
   return (
-    <div ref={ref} className="sticky top-0 overflow-hidden" style={{ zIndex: 3 }}>
+    <div id="scene-custom03" ref={ref} className="sticky top-0 overflow-hidden" style={{ zIndex: 4 }}>
       {/* Desktop / tablet */}
       <div
         className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px]"
@@ -386,10 +395,10 @@ function ColorfulScene() {
 
 export default function CakeStory() {
   return (
-    <section aria-label="Historia w trzech odsłonach">
+    <>
       <WeddingScene />
       <CustomScene />
       <ColorfulScene />
-    </section>
+    </>
   )
 }

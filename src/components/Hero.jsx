@@ -1,14 +1,44 @@
 import { useEffect, useRef, useState } from 'react'
 import heroArtwork from '../assets/hero-artwork.png'
+import useSceneFade from '../hooks/useSceneFade'
 
 export default function Hero() {
   const ref = useRef(null)
+  const [fadeRef, fadeStyleOut] = useSceneFade('scene-manifesto')
   const [active, setActive] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
     const t = setTimeout(() => setActive(true), 60)
     return () => clearTimeout(t)
   }, [])
+
+  // Subtle scroll parallax while the hero is in view — background drifts slower than the
+  // page, headline eases up and fades slightly as the user scrolls into Manifesto.
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) return
+    let raf = null
+    const onScroll = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = null
+        const el = ref.current
+        if (!el) return
+        const h = el.offsetHeight || 1
+        setScrollY(Math.max(0, Math.min(window.scrollY, h)))
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
+  const bgOffset = Math.min(scrollY * 0.12, 48)
+  const headlineOffset = Math.min(scrollY * 0.1, 32)
+  const heroFade = 1 - Math.min(scrollY / 520, 0.55)
 
   const ease = 'cubic-bezier(0.22,1,0.36,1)'
   const lineStyle = (delay) => ({
@@ -24,9 +54,9 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      ref={ref}
-      className="relative overflow-hidden"
-      style={{ height: '100svh' }}
+      ref={(el) => { ref.current = el; fadeRef.current = el }}
+      className="relative overflow-hidden isolate"
+      style={{ height: '100svh', ...fadeStyleOut }}
     >
       {/* Desktop / tablet — prepared artwork is the full hero background; cake stays right, text sits in the intentional left negative space */}
       <div
@@ -37,6 +67,7 @@ export default function Hero() {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundColor: 'var(--color-cream)',
+          transform: `translateY(${bgOffset}px)`,
         }}
       />
 
@@ -49,6 +80,7 @@ export default function Hero() {
           backgroundPosition: '78% 30%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: 'var(--color-cream)',
+          transform: `translateY(${bgOffset * 0.6}px)`,
         }}
       />
 
@@ -72,7 +104,10 @@ export default function Hero() {
         </div>
 
         {/* Headline — positioned in the artwork's intentional left negative space */}
-        <div className="relative flex-1 min-h-0 mt-4 md:mt-6 flex items-center">
+        <div
+          className="relative flex-1 min-h-0 mt-4 md:mt-6 flex items-center"
+          style={{ transform: `translateY(${-headlineOffset}px)`, opacity: heroFade }}
+        >
           <h1
             className="relative z-10 font-playfair text-[var(--color-plum)] select-none"
             style={{
@@ -89,7 +124,7 @@ export default function Hero() {
             <span className="block overflow-hidden">
               <span className="block" style={lineStyle(250)}>które zostają</span>
             </span>
-            <span className="block overflow-hidden">
+            <span className="block overflow-hidden" style={{ paddingBottom: '0.18em' }}>
               <span className="block" style={lineStyle(340)}>
                 w <em className="italic text-rose-500">pamięci</em>.
               </span>

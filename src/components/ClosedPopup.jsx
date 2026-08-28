@@ -1,100 +1,117 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+const STORAGE_KEY = 'sz_closed_popup_dismissed'
 
 export default function ClosedPopup() {
   const [visible, setVisible] = useState(false)
   const [animated, setAnimated] = useState(false)
 
   useEffect(() => {
+    let dismissed = false
+    try {
+      dismissed = sessionStorage.getItem(STORAGE_KEY) === '1'
+    } catch {}
+    if (dismissed) return
     setVisible(true)
     setTimeout(() => setAnimated(true), 10)
   }, [])
 
   const close = () => {
     setAnimated(false)
-    setTimeout(() => setVisible(false), 350)
+    try {
+      sessionStorage.setItem(STORAGE_KEY, '1')
+    } catch {}
+    setTimeout(() => setVisible(false), 300)
   }
+
+  useEffect(() => {
+    if (!visible) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') close()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [visible])
 
   if (!visible) return null
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4"
       style={{
-        backgroundColor: 'rgba(0,0,0,0.55)',
+        backgroundColor: 'rgba(45,15,26,0.55)',
         opacity: animated ? 1 : 0,
-        transition: 'opacity 0.3s ease',
+        transition: 'opacity 0.35s ease',
       }}
       onClick={close}
     >
       <div
-        className="relative w-full max-w-lg md:max-w-2xl rounded-3xl overflow-hidden shadow-2xl"
+        className="relative overflow-hidden"
         style={{
-          background: 'linear-gradient(160deg, #fce4ec 0%, #f8bbd0 40%, #f48fb1 100%)',
-          border: '3px solid #f06292',
-          transform: animated ? 'scale(1) translateY(0)' : 'scale(0.85) translateY(40px)',
+          width: 'min(92vw, 640px)',
+          background: 'var(--color-cream)',
+          border: '1px solid rgba(66,26,39,0.1)',
+          borderRadius: '1.25rem',
+          boxShadow: '0 30px 70px rgba(45,15,26,0.25)',
+          transform: animated ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(16px)',
           opacity: animated ? 1 : 0,
-          transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease',
+          transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Bow at top */}
-        <div className="flex justify-center pt-4">
-          <span className="text-7xl" style={{ filter: 'drop-shadow(0 2px 4px #f06292aa)' }}>🎀</span>
-        </div>
-
-        {/* Warning banner */}
-        <div className="mx-4 mt-2 rounded-xl overflow-hidden border-2 border-yellow-400 shadow">
-          {/* Yellow-black tape stripe */}
-          <div
-            className="h-4 w-full"
-            style={{
-              background: 'repeating-linear-gradient(45deg, #f5c300 0px, #f5c300 12px, #1a1a1a 12px, #1a1a1a 24px)',
-            }}
-          />
-          <div className="bg-yellow-50 text-center py-2 px-3">
-            <p className="font-extrabold text-red-600 text-2xl leading-tight tracking-wide">UWAGA!</p>
-            <p className="font-extrabold text-gray-800 text-xl leading-tight">PRACOWNIA NIECZYNNA</p>
-          </div>
-          <div
-            className="h-4 w-full"
-            style={{
-              background: 'repeating-linear-gradient(45deg, #f5c300 0px, #f5c300 12px, #1a1a1a 12px, #1a1a1a 24px)',
-            }}
-          />
-        </div>
-
-        {/* Body text */}
-        <div className="mx-8 my-5 text-center text-gray-800 text-base leading-relaxed">
-          <p>
-            Z powodu operacji kręgosłupa oraz komplikacji <em>w trakcie operacji</em> i okresu{' '}
-            <strong>rehabilitacji</strong> pracownia tortów{' '}
-            <span className="font-bold" style={{ fontFamily: 'cursive', color: '#c2185b' }}>
-              Słodki Zakątek
-            </span>{' '}
-            będzie przez dłuższy czas <strong>nieczynna.</strong> ♥
+        <div className="px-7 py-9 md:px-10 md:py-12">
+          <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-rose-500/80">
+            Ważna informacja
           </p>
-          <p className="mt-2">
-            Na bieżąco będziemy informować o powrocie działalności pracowni. ♥
-          </p>
-          <p className="mt-2 italic font-semibold text-pink-700">Przepraszamy za utrudnienia!</p>
-        </div>
 
-        {/* Close button */}
-        <div className="flex justify-center pb-5">
-          <button
-            onClick={close}
-            className="px-10 py-3 rounded-full font-bold text-white text-base shadow-lg transition-transform hover:scale-105 active:scale-95"
-            style={{ background: 'linear-gradient(90deg, #e91e8c, #f06292)' }}
+          <h2
+            className="font-playfair text-[var(--color-plum)] mt-4"
+            style={{ fontSize: 'clamp(28px, 4vw, 38px)', lineHeight: 1.08 }}
           >
-            Zamknij
-          </button>
-        </div>
+            Pracownia jest<br />obecnie nieczynna.
+          </h2>
 
-        {/* Decorative hearts */}
-        <div className="absolute top-3 left-3 text-pink-300 text-lg select-none">♥</div>
-        <div className="absolute top-6 right-5 text-pink-400 text-sm select-none">♥</div>
-        <div className="absolute bottom-12 left-4 text-pink-300 text-xs select-none">♥</div>
-        <div className="absolute bottom-10 right-3 text-pink-400 text-lg select-none">♥</div>
+          <p className="mt-5 text-[var(--color-plum)]/75 leading-relaxed">
+            Agnieszka przechodzi intensywną rehabilitację, dlatego realizacja zamówień
+            jest obecnie wstrzymana.
+          </p>
+
+          <p className="mt-4 text-[var(--color-plum)]/75 leading-relaxed">
+            Jeśli chcesz wesprzeć Agnieszkę w drodze do odzyskania sprawności,
+            trwa zbiórka na jej leczenie i rehabilitację.
+          </p>
+
+          <div className="mt-8 flex flex-col items-start gap-4">
+            <a
+              href="https://pomagam.pl/rehabilitacjaagi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.15em] uppercase px-7 py-3.5 rounded-full transition-colors"
+              style={{ background: 'var(--color-brand-pink)', color: 'var(--color-cream)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#d43f6b' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-brand-pink)' }}
+            >
+              Wesprzyj Agnieszkę
+              <span aria-hidden>→</span>
+            </a>
+
+            <a
+              href="https://pomagam.pl/rehabilitacjaagi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[var(--color-plum)]/50 hover:text-rose-500 transition-colors"
+            >
+              Dowiedz się więcej na Pomagam.pl ↗
+            </a>
+
+            <button
+              onClick={close}
+              className="text-sm text-[var(--color-plum)]/60 hover:text-[var(--color-plum)] transition-colors mt-1"
+            >
+              Zamknij
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

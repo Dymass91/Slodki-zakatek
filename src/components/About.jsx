@@ -76,27 +76,19 @@ export default function About() {
         </div>
       </div>
 
-      {/* Mobile — Agnieszka's face stays the priority; artwork blends into the section via
-          a matching background color instead of reading as a separate photo card. */}
-      <div
-        className="md:hidden relative"
-        style={{
-          height: 'clamp(780px, 205vw, 940px)',
-          backgroundImage: `url(${artwork})`,
-          backgroundSize: 'auto 130%',
-          backgroundPosition: '28% 18%',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: 'var(--color-blush)',
-          transform: active ? 'scale(1)' : 'scale(1.01)',
-          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
-        }}
-      >
-        <div
-          className="absolute left-0 right-0 bottom-0 px-6 pt-10 pb-14"
-          style={{
-            background: 'linear-gradient(180deg, transparent 0%, var(--color-blush) 22%)',
-          }}
-        >
+      {/* Mobile — intentional stacked portrait: artwork on top at natural scale (face + some
+          cakes visible), all text below on a clean blush background. No overlay, no crop-to-fill. */}
+      <div className="md:hidden">
+        <div style={{ height: 'clamp(260px, 42vh, 380px)' }}>
+          <img
+            src={artwork}
+            alt="Agnieszka Włodarczyk z jej tortami — Słodki Zakątek"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: '30% 22%' }}
+          />
+        </div>
+
+        <div className="bg-[var(--color-blush)] px-6 pt-8 pb-14">
           <RevealText as="div">
             <SectionLabel>Poznajmy się</SectionLabel>
           </RevealText>
@@ -104,7 +96,7 @@ export default function About() {
           <RevealText as="h2" delay={80} className="mt-4">
             <span
               className="block font-playfair text-[var(--color-plum)]"
-              style={{ fontSize: 'clamp(36px, 10vw, 48px)', lineHeight: 1.05 }}
+              style={{ fontSize: 'clamp(32px, 8.5vw, 42px)', lineHeight: 1.08 }}
             >
               Cześć,<br />jestem Agnieszka.
             </span>
@@ -113,7 +105,7 @@ export default function About() {
           <RevealText as="p" delay={160} className="mt-5">
             <span
               className="block font-playfair italic text-rose-500"
-              style={{ fontSize: 'clamp(20px, 6vw, 26px)', lineHeight: 1.25 }}
+              style={{ fontSize: 'clamp(19px, 5.5vw, 24px)', lineHeight: 1.25 }}
             >
               Ręcznie. Spokojnie.<br />Z dbałością o detal.
             </span>
