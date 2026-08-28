@@ -18,6 +18,14 @@
   --color-pink-600: #db2777;
   --font-playfair: 'Playfair Display', serif;
   --font-lato: 'Lato', sans-serif;
+  --font-script: 'Caveat', cursive;
+
+  /* Editorial pink palette */
+  --color-blush: #fff7f9;
+  --color-blush-deep: #f7dde5;
+  --color-brand-pink: #e94f7c;
+  --color-plum: #421a27;
+  --color-cream: #fff9f5;
 }
 
 * {
@@ -50,4 +58,40 @@ h1, h2, h3, h4 {
 
 .slide-from-left {
   animation: slideFromLeft 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* Editorial reveal primitives */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(24px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-scale {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

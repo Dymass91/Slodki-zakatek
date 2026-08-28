@@ -48,7 +48,7 @@ export default function Footer() {
         <div>
           <h4 className="font-playfair text-white text-lg mb-4">Szybkie linki</h4>
           <ul className="space-y-2 text-sm">
-            {['#o-nas', '#oferta', '#cennik', '#kontakt'].map((href) => (
+            {['#o-nas', '#proces', '#realizacje', '#cennik', '#kontakt'].map((href) => (
               <li key={href}>
                 <a href={href} className="hover:text-rose-400 transition-colors capitalize">
                   {href.replace('#', '')}
@@ -67,7 +67,8 @@ export default function Footer() {
                 730 042 213
               </a>
             </li>
-            <li className="text-gray-500">Pon–Pt 9–17 · Sob 9–13 · Nd nieczynne</li>
+            <li className="text-gray-500">Pon–Pt 9:00–17:00</li>
+            <li className="text-gray-500">Sob 9:00–13:00 · Nd nieczynne</li>
           </ul>
         </div>
 

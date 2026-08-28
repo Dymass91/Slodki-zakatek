@@ -1,73 +1,67 @@
-import logoImg from '../assets/slodkizakateklogo.jpg'
-
-const stats = [
-  { value: '5+', label: 'lat doświadczenia' },
-  { value: '500+', label: 'zadowolonych klientów' },
-  { value: '1000+', label: 'wykonanych tortów' },
-]
+import RevealText from './primitives/RevealText'
+import SectionLabel from './primitives/SectionLabel'
 
 export default function About() {
   return (
-    <section id="o-nas" className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+    <section id="o-nas" className="relative bg-[var(--color-cream)] py-28 md:py-40 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid md:grid-cols-12 gap-10 items-start">
 
-        {/* Decorative image area */}
-        <div className="relative flex items-center justify-center">
-          <div className="absolute -top-4 -left-4 w-full h-full rounded-3xl bg-pink-100 -z-10" />
-          <div
-            className="w-full rounded-3xl shadow-xl aspect-[4/5] flex items-center justify-center overflow-hidden"
-            style={{ background: 'linear-gradient(145deg, #fce7f3 0%, #fda4af 50%, #fb7185 100%)' }}
-          >
-            <img
-              src={logoImg}
-              alt="Słodki Zakątek – Agnieszka Włodarczyk"
-              className="w-4/5 object-contain drop-shadow-2xl rounded-3xl"
-            />
-          </div>
-          {/* Floating badge */}
-          <div className="absolute -bottom-6 -right-6 bg-rose-500 text-white rounded-2xl p-5 shadow-lg text-center">
-            <p className="font-playfair text-3xl font-bold">5</p>
-            <p className="text-xs font-semibold tracking-wide uppercase">lat pasji</p>
-          </div>
+        {/* Oversized monogram standing in for a portrait — an editorial mark, not a stock photo */}
+        <div className="md:col-span-4 flex md:justify-start justify-center">
+          <RevealText scale>
+            <div
+              className="relative flex items-center justify-center rounded-full"
+              style={{
+                width: 'clamp(220px, 22vw, 320px)',
+                height: 'clamp(220px, 22vw, 320px)',
+                background: 'linear-gradient(150deg, var(--color-blush-deep) 0%, #f2b8ca 100%)',
+              }}
+            >
+              <span
+                className="font-playfair italic"
+                style={{ fontSize: 'clamp(96px, 10vw, 150px)', color: 'var(--color-cream)' }}
+              >
+                A
+              </span>
+            </div>
+          </RevealText>
         </div>
 
-        {/* Text */}
-        <div>
-          <p className="text-rose-500 font-semibold tracking-widest uppercase text-sm mb-3">
-            Nasza historia
-          </p>
-          <h2 className="font-playfair text-4xl md:text-5xl text-gray-800 mb-6 leading-tight">
-            Słodki Zakątek –<br />
-            <em className="text-rose-500">z miłości do tortów</em>
-          </h2>
-          <p className="text-gray-600 leading-relaxed mb-4">
-            Wszystko zaczęło się ponad 5 lat temu w małej miejscowości Skórka.
-            Agnieszka Włodarczyk, z pasją do cukiernictwa i marzeniem o własnej
-            działalności, postawiła pierwsze kroki w świecie tortów artystycznych.
-          </p>
-          <p className="text-gray-600 leading-relaxed mb-4">
-            To, co zaczęło się jako hobby w domowej kuchni, szybko przerodziło się
-            w prawdziwą cukiernię z gronem stałych, zadowolonych klientów.
-            Dziś Słodki Zakątek to marka znana w całej okolicy — każde zlecenie
-            traktujemy jak wyjątkowe dzieło sztuki.
-          </p>
-          <p className="text-gray-600 leading-relaxed mb-8">
-            Każdy tort jest pieczołowicie przygotowywany ręcznie, z najwyższej
-            jakości składników. Specjalizujemy się w tortach okolicznościowych,
-            weselnych i urodzinowych — zawsze dopasowanych do wizji klienta.
-          </p>
+        <div className="md:col-span-8">
+          <RevealText as="div">
+            <SectionLabel>Poznajmy się</SectionLabel>
+          </RevealText>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
-            {stats.map(s => (
-              <div key={s.label} className="text-center bg-pink-50 rounded-2xl p-4">
-                <p className="font-playfair text-3xl font-bold text-rose-500">{s.value}</p>
-                <p className="text-xs text-gray-500 mt-1 leading-snug">{s.label}</p>
-              </div>
-            ))}
-          </div>
+          <RevealText as="h2" delay={80} className="mt-5">
+            <span
+              className="block font-playfair text-[var(--color-plum)]"
+              style={{ fontSize: 'clamp(44px, 6vw, 88px)', lineHeight: 0.98 }}
+            >
+              Cześć,<br />jestem Agnieszka.
+            </span>
+          </RevealText>
+
+          <RevealText as="p" delay={160} className="mt-10 md:ml-[6%] max-w-xl">
+            <span
+              className="block font-playfair italic text-rose-500"
+              style={{ fontSize: 'clamp(30px, 3.4vw, 46px)', lineHeight: 1.15 }}
+            >
+              Ręcznie. Spokojnie.<br />Z dbałością o detal.
+            </span>
+          </RevealText>
+
+          <RevealText as="div" delay={240} className="mt-10 md:ml-[6%] max-w-md space-y-4">
+            <p className="text-[var(--color-plum)]/75 leading-relaxed">
+              Wszystko zaczęło się ponad 5 lat temu w małej miejscowości Skórka —
+              z pasji do cukiernictwa i marzenia o własnej pracowni.
+            </p>
+            <p className="text-[var(--color-plum)]/75 leading-relaxed">
+              Dziś Słodki Zakątek to kameralna pracownia, w której każdy tort
+              powstaje ręcznie, od pierwszego szkicu po ostatni kwiat z lukru —
+              dla Skórki, Piły, Złotowa i okolic.
+            </p>
+          </RevealText>
         </div>
-
       </div>
     </section>
   )
