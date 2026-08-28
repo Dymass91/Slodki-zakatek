@@ -1,36 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import cakeWedding from '../assets/Untitled design (20).png'
-import cakeCustom from '../assets/Untitled design (24).png'
-import cakeColorful from '../assets/Untitled design (25).png'
-import CakeCutout from './primitives/CakeCutout'
+import weddingArtwork from '../assets/wedding-scene-artwork.png'
+import customArtwork from '../assets/custom-scene-artwork.png'
+import colorfulArtwork from '../assets/colorful-scene-artwork.png'
 
-const scenes = [
-  {
-    label: 'Wedding / 01',
-    heading: ['Dla chwil,', 'które zostają.'],
-    cake: cakeWedding,
-    alt: 'Biały piętrowy tort weselny z białymi różami',
-    bg: 'var(--color-cream)',
-  },
-  {
-    label: 'Custom / 02',
-    heading: ['A czasem…', 'bez żadnych zasad.'],
-    cake: cakeCustom,
-    alt: 'Nietypowy tort w kształcie skrzyni skarbów z ośmiornicą',
-    bg: 'var(--color-plum)',
-    dark: true,
-  },
-  {
-    label: 'Custom / 03',
-    heading: ['Twój pomysł.', 'Moje wykonanie.'],
-    sub: 'Od pierwszego pomysłu po ostatni detal.',
-    cake: cakeColorful,
-    alt: 'Kolorowy piętrowy tort z lodami i makaronikami',
-    bg: 'var(--color-blush)',
-  },
-]
-
-function Scene({ scene, index }) {
+// Wedding scene is fully art-directed: the prepared artwork already contains the real
+// cake, warm cream background and watercolor texture, so it's used as the scene's own
+// background (same technique as the Manifesto section) instead of the generic
+// text-column + isolated-cake layout the other two scenes use.
+function WeddingScene() {
   const ref = useRef(null)
   const [active, setActive] = useState(false)
 
@@ -48,36 +25,88 @@ function Scene({ scene, index }) {
     return () => observer.disconnect()
   }, [])
 
-  const flip = index % 2 === 1
-
   return (
     <div
       ref={ref}
-      className="sticky top-0 h-screen min-h-[560px] flex items-center overflow-hidden"
-      style={{ background: scene.bg, zIndex: index + 1 }}
+      className="sticky top-0 overflow-hidden"
+      style={{ zIndex: 1 }}
     >
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid md:grid-cols-2 gap-8 items-center">
-        <div className={`relative ${flip ? 'md:order-2' : ''}`}>
+      {/* Desktop / tablet */}
+      <div
+        className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px]"
+        style={{
+          backgroundImage: `url(${weddingArtwork})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'right center',
+          backgroundRepeat: 'no-repeat',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+          <div className="max-w-xl lg:max-w-2xl lg:pl-4">
+            <p
+              className="text-xs font-semibold tracking-[0.3em] uppercase text-rose-500/80 mb-5"
+              style={{
+                opacity: active ? 1 : 0,
+                transform: active ? 'translateY(0)' : 'translateY(16px)',
+                transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+              }}
+            >
+              Wedding / 01
+            </p>
+            <h3
+              className="font-playfair text-[var(--color-plum)] whitespace-nowrap"
+              style={{ fontSize: 'clamp(40px, 5vw, 76px)', lineHeight: 0.95, letterSpacing: '-0.01em' }}
+            >
+              {['Dla chwil,', 'które zostają.'].map((line, i) => (
+                <span key={line} className="block overflow-hidden">
+                  <span
+                    className="block"
+                    style={{
+                      transform: active ? 'translateY(0)' : 'translateY(100%)',
+                      transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 90}ms`,
+                    }}
+                  >
+                    {line}
+                  </span>
+                </span>
+              ))}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile — one integrated crop, headline upper-left, cake reads large lower-right */}
+      <div
+        className="md:hidden relative"
+        style={{
+          height: 'clamp(850px, 220vw, 1000px)',
+          backgroundImage: `url(${weddingArtwork})`,
+          backgroundSize: 'auto 108%',
+          backgroundPosition: '80% 42%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: 'var(--color-cream)',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="px-6 pt-16">
           <p
-            className={`text-xs font-semibold tracking-[0.3em] uppercase mb-4 ${scene.dark ? 'text-cream/60' : 'text-rose-500/80'}`}
+            className="text-xs font-semibold tracking-[0.3em] uppercase text-rose-500/80 mb-5"
             style={{
               opacity: active ? 1 : 0,
               transform: active ? 'translateY(0)' : 'translateY(16px)',
               transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
             }}
           >
-            {scene.label}
+            Wedding / 01
           </p>
           <h3
-            className="font-playfair"
-            style={{
-              fontSize: 'clamp(48px, 7vw, 96px)',
-              lineHeight: 0.95,
-              letterSpacing: '-0.01em',
-              color: scene.dark ? 'var(--color-cream)' : 'var(--color-plum)',
-            }}
+            className="font-playfair text-[var(--color-plum)]"
+            style={{ fontSize: 'clamp(44px, 12vw, 60px)', lineHeight: 0.95, letterSpacing: '-0.01em' }}
           >
-            {scene.heading.map((line, i) => (
+            {['Dla chwil,', 'które zostają.'].map((line, i) => (
               <span key={line} className="block overflow-hidden">
                 <span
                   className="block"
@@ -91,31 +120,264 @@ function Scene({ scene, index }) {
               </span>
             ))}
           </h3>
-          {scene.sub && (
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Custom / 02 is fully art-directed like the Wedding scene: the prepared artwork already
+// contains the real treasure-chest cake, deep burgundy background and gold watercolor
+// texture, so it's used as the scene's own background instead of an isolated cutout.
+function CustomScene() {
+  const ref = useRef(null)
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setActive(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { threshold: 0.35 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const heading = ['A czasem…', 'bez żadnych', 'zasad.']
+
+  return (
+    <div ref={ref} className="sticky top-0 overflow-hidden" style={{ zIndex: 2 }}>
+      {/* Desktop / tablet */}
+      <div
+        className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px]"
+        style={{
+          backgroundImage: `url(${customArtwork})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'right center',
+          backgroundRepeat: 'no-repeat',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+          <div className="max-w-md lg:max-w-lg lg:pl-4">
             <p
-              className={`mt-6 text-lg max-w-xs ${scene.dark ? 'text-cream/70' : 'text-[var(--color-plum)]/70'}`}
+              className="text-xs font-semibold tracking-[0.3em] uppercase mb-5"
               style={{
+                color: 'var(--color-blush-deep)',
                 opacity: active ? 1 : 0,
-                transition: 'opacity 1s ease 300ms',
+                transform: active ? 'translateY(0)' : 'translateY(16px)',
+                transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
               }}
             >
-              {scene.sub}
+              Custom / 02
             </p>
-          )}
+            <h3
+              className="font-playfair"
+              style={{ fontSize: 'clamp(44px, 5.5vw, 80px)', lineHeight: 1, letterSpacing: '-0.01em', color: 'var(--color-cream)' }}
+            >
+              {heading.map((line, i) => (
+                <span key={line} className="block overflow-hidden">
+                  <span
+                    className="block"
+                    style={{
+                      transform: active ? 'translateY(0)' : 'translateY(100%)',
+                      transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 90}ms`,
+                    }}
+                  >
+                    {line}
+                  </span>
+                </span>
+              ))}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile — one integrated crop: dark burgundy fills the section, headline upper-left, chest reads large lower-right */}
+      <div
+        className="md:hidden relative"
+        style={{
+          height: 'clamp(850px, 220vw, 1000px)',
+          backgroundImage: `url(${customArtwork})`,
+          backgroundSize: 'auto 120%',
+          backgroundPosition: '78% 46%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: 'var(--color-plum)',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="px-6 pt-16">
+          <p
+            className="text-xs font-semibold tracking-[0.3em] uppercase mb-5"
+            style={{
+              color: 'var(--color-blush-deep)',
+              opacity: active ? 1 : 0,
+              transform: active ? 'translateY(0)' : 'translateY(16px)',
+              transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+            }}
+          >
+            Custom / 02
+          </p>
+          <h3
+            className="font-playfair"
+            style={{ fontSize: 'clamp(40px, 11vw, 54px)', lineHeight: 1, letterSpacing: '-0.01em', color: 'var(--color-cream)' }}
+          >
+            {heading.map((line, i) => (
+              <span key={line} className="block overflow-hidden">
+                <span
+                  className="block"
+                  style={{
+                    transform: active ? 'translateY(0)' : 'translateY(100%)',
+                    transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 90}ms`,
+                  }}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
+          </h3>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Custom / 03 closes the story with the same art-directed approach: the prepared
+// artwork already contains the real colorful cake, pale blush background and watercolor
+// texture, used as the scene's own background instead of an isolated cutout.
+function ColorfulScene() {
+  const ref = useRef(null)
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setActive(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { threshold: 0.35 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const heading = ['Twój pomysł.', 'Moje wykonanie.']
+  const sub = 'Od pierwszego pomysłu po ostatni detal.'
+
+  return (
+    <div ref={ref} className="sticky top-0 overflow-hidden" style={{ zIndex: 3 }}>
+      {/* Desktop / tablet */}
+      <div
+        className="hidden md:flex items-center overflow-hidden h-screen min-h-[560px]"
+        style={{
+          backgroundImage: `url(${colorfulArtwork})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'right center',
+          backgroundRepeat: 'no-repeat',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+          <div className="max-w-md lg:pl-4">
+            <p
+              className="text-xs font-semibold tracking-[0.3em] uppercase text-rose-500/80 mb-5"
+              style={{
+                opacity: active ? 1 : 0,
+                transform: active ? 'translateY(0)' : 'translateY(16px)',
+                transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+              }}
+            >
+              Custom / 03
+            </p>
+            <h3
+              className="font-playfair text-[var(--color-plum)] whitespace-nowrap"
+              style={{ fontSize: 'clamp(44px, 5.5vw, 80px)', lineHeight: 1, letterSpacing: '-0.01em' }}
+            >
+              {heading.map((line, i) => (
+                <span key={line} className="block overflow-hidden">
+                  <span
+                    className="block"
+                    style={{
+                      transform: active ? 'translateY(0)' : 'translateY(100%)',
+                      transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 90}ms`,
+                    }}
+                  >
+                    {line}
+                  </span>
+                </span>
+              ))}
+            </h3>
+            <p
+              className="mt-6 text-base text-[var(--color-plum)]/70"
+              style={{ opacity: active ? 1 : 0, transition: 'opacity 1s ease 300ms' }}
+            >
+              {sub}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile — one integrated crop: blush watercolor fills the section, headline upper-left, cake reads large lower-right */}
+      <div
+        className="md:hidden relative"
+        style={{
+          height: 'clamp(850px, 220vw, 1000px)',
+          backgroundImage: `url(${colorfulArtwork})`,
+          backgroundSize: 'auto 118%',
+          backgroundPosition: '76% 44%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: 'var(--color-blush)',
+          transform: active ? 'scale(1)' : 'scale(1.015)',
+          transition: 'transform 1.4s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div className="px-6 pt-16">
+          <p
+            className="text-xs font-semibold tracking-[0.3em] uppercase text-rose-500/80 mb-5"
+            style={{
+              opacity: active ? 1 : 0,
+              transform: active ? 'translateY(0)' : 'translateY(16px)',
+              transition: 'opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+            }}
+          >
+            Custom / 03
+          </p>
+          <h3
+            className="font-playfair text-[var(--color-plum)]"
+            style={{ fontSize: 'clamp(40px, 11vw, 54px)', lineHeight: 1, letterSpacing: '-0.01em' }}
+          >
+            {heading.map((line, i) => (
+              <span key={line} className="block overflow-hidden">
+                <span
+                  className="block"
+                  style={{
+                    transform: active ? 'translateY(0)' : 'translateY(100%)',
+                    transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${i * 90}ms`,
+                  }}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
+          </h3>
         </div>
 
-        <div className={`relative flex justify-center ${flip ? 'md:order-1' : ''}`}>
-          <CakeCutout
-            src={scene.cake}
-            alt={scene.alt}
-            className="w-[240px] sm:w-[300px] md:w-[380px] lg:w-[440px]"
-            style={{
-              filter: 'drop-shadow(0 40px 60px rgba(66,26,39,0.25))',
-              transform: active ? 'scale(1) rotate(0deg)' : 'scale(0.96) rotate(-2deg)',
-              opacity: active ? 1 : 0,
-              transition: 'transform 1s cubic-bezier(0.22,1,0.36,1), opacity 1s cubic-bezier(0.22,1,0.36,1)',
-            }}
-          />
+        <div className="absolute left-0 right-0 bottom-0 px-6 pb-12">
+          <p
+            className="text-base text-[var(--color-plum)]/70 max-w-[55%]"
+            style={{ opacity: active ? 1 : 0, transition: 'opacity 1s ease 300ms' }}
+          >
+            {sub}
+          </p>
         </div>
       </div>
     </div>
@@ -125,9 +387,9 @@ function Scene({ scene, index }) {
 export default function CakeStory() {
   return (
     <section aria-label="Historia w trzech odsłonach">
-      {scenes.map((scene, i) => (
-        <Scene key={scene.label} scene={scene} index={i} />
-      ))}
+      <WeddingScene />
+      <CustomScene />
+      <ColorfulScene />
     </section>
   )
 }

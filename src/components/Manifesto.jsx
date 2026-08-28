@@ -1,62 +1,121 @@
-import cake from '../assets/Untitled design (28).png'
-import CakeCutout from './primitives/CakeCutout'
+import artwork from '../assets/manifesto-artwork.png'
 import RevealText from './primitives/RevealText'
 import SectionLabel from './primitives/SectionLabel'
 
 export default function Manifesto() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-blush)] pt-28 pb-40 md:pt-40 md:pb-56">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative">
-        <RevealText as="div">
-          <SectionLabel>Różne okazje. Jedna pasja.</SectionLabel>
-        </RevealText>
+    <section className="relative bg-[var(--color-blush)]">
+      {/* Desktop / tablet: the prepared artwork IS the section background — cake stays
+          anchored to the right, empty left area holds the real HTML typography. */}
+      <div
+        className="hidden md:flex relative items-center overflow-hidden"
+        style={{
+          minHeight: '88vh',
+          backgroundImage: `url(${artwork})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'right center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
+          <div className="max-w-md lg:max-w-lg lg:pl-4">
+            <RevealText as="div">
+              <SectionLabel>Różne okazje. Jedna pasja.</SectionLabel>
+            </RevealText>
 
-        <div className="relative mt-6 md:mt-10">
-          <RevealText as="h2" delay={80}>
+            <RevealText as="h2" delay={80} className="mt-6">
+              <span
+                className="block font-playfair text-[var(--color-plum)]"
+                style={{ fontSize: 'clamp(56px, 6.5vw, 108px)', lineHeight: 0.92, letterSpacing: '-0.02em' }}
+              >
+                Każdy inny.
+              </span>
+            </RevealText>
+
+            <RevealText as="p" delay={160} className="mt-1">
+              <span
+                className="block text-rose-500"
+                style={{ fontFamily: 'var(--font-script)', fontSize: 'clamp(38px, 4.4vw, 62px)' }}
+              >
+                Tak jak okazja.
+              </span>
+            </RevealText>
+
+            <RevealText as="p" delay={240} className="mt-8 max-w-xs">
+              <span className="block text-[var(--color-plum)]/75 leading-relaxed">
+                Od delikatnych i romantycznych, po szalone i niebanalne —
+                Twój pomysł, moje wykonanie.
+              </span>
+            </RevealText>
+
+            <RevealText as="div" delay={320} className="mt-8">
+              <a
+                href="#realizacje"
+                className="inline-block text-sm font-semibold tracking-[0.2em] uppercase text-rose-600 border-b border-rose-300 pb-1 hover:text-rose-700 hover:border-rose-500 transition-colors"
+              >
+                Zobacz realizacje →
+              </a>
+            </RevealText>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile: one integrated composition — the artwork is the section's own background
+          (scaled up + cropped so the cake reads large, right side, allowed to bleed off-edge),
+          with the HTML typography layered directly on top. Not a banner + text stack. */}
+      <div
+        className="md:hidden relative overflow-hidden"
+        style={{
+          height: 'clamp(850px, 220vw, 1000px)',
+          backgroundImage: `url(${artwork})`,
+          backgroundSize: 'auto 108%',
+          backgroundPosition: '82% 38%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: 'var(--color-blush)',
+        }}
+      >
+        <div className="relative z-10 h-full flex flex-col px-6 pt-16">
+          <RevealText as="div">
+            <SectionLabel>Różne okazje. Jedna pasja.</SectionLabel>
+          </RevealText>
+
+          <RevealText as="h2" delay={80} className="mt-5">
             <span
               className="block font-playfair text-[var(--color-plum)]"
-              style={{ fontSize: 'clamp(64px, 10vw, 150px)', lineHeight: 0.92, letterSpacing: '-0.02em' }}
+              style={{ fontSize: 'clamp(48px, 14vw, 68px)', lineHeight: 0.92, letterSpacing: '-0.01em' }}
             >
-              Każdy inny.
+              Każdy<br />inny.
             </span>
           </RevealText>
 
-          {/* Cake breaks out of the text column, overlapping the headline on desktop */}
-          <CakeCutout
-            src={cake}
-            alt="Delikatny tort z różowym lukrem i kwiatami"
-            className="hidden md:block absolute -top-10 right-0 w-[300px] lg:w-[380px] z-10 rotate-[4deg]"
-          />
-
-          <RevealText as="p" delay={160} className="mt-1 md:mt-2">
+          <RevealText as="p" delay={160} className="mt-1">
             <span
-              className="block font-script text-rose-500"
-              style={{ fontFamily: 'var(--font-script)', fontSize: 'clamp(40px, 6vw, 76px)' }}
+              className="block text-rose-500"
+              style={{ fontFamily: 'var(--font-script)', fontSize: 'clamp(34px, 10vw, 46px)' }}
             >
               Tak jak okazja.
             </span>
           </RevealText>
 
-          <CakeCutout
-            src={cake}
-            alt="Delikatny tort z różowym lukrem i kwiatami"
-            className="md:hidden mx-auto w-[220px] mt-10"
-          />
-        </div>
+          {/* Negative space for the cake to read as a real object, not covered by text */}
+          <div className="flex-1 min-h-[140px]" />
 
-        <RevealText as="div" delay={240} className="mt-14 md:mt-20 md:ml-[8%] max-w-sm">
-          <p className="text-[var(--color-plum)]/80 text-lg leading-relaxed">
-            Od delikatnych i romantycznych, po szalone i niebanalne —
-            <br />
-            Twój pomysł, moje wykonanie.
-          </p>
-          <a
-            href="#realizacje"
-            className="inline-block mt-8 text-sm font-semibold tracking-[0.2em] uppercase text-rose-600 border-b border-rose-300 pb-1 hover:text-rose-700 hover:border-rose-500 transition-colors"
-          >
-            Zobacz realizacje →
-          </a>
-        </RevealText>
+          <div className="pb-14 max-w-[72%]">
+            <RevealText as="p" delay={240}>
+              <span className="block text-[var(--color-plum)]/80 leading-relaxed">
+                Od delikatnych i romantycznych, po szalone i niebanalne — Twój pomysł, moje wykonanie.
+              </span>
+            </RevealText>
+            <RevealText as="div" delay={320} className="mt-7">
+              <a
+                href="#realizacje"
+                className="inline-block text-sm font-semibold tracking-[0.2em] uppercase text-rose-600 border-b border-rose-300 pb-1"
+              >
+                Zobacz realizacje →
+              </a>
+            </RevealText>
+          </div>
+        </div>
       </div>
     </section>
   )
