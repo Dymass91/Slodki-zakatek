@@ -1,51 +1,57 @@
-import cake from '../assets/Untitled design (23).png'
-import CakeCutout from './primitives/CakeCutout'
 import RevealText from './primitives/RevealText'
-import SectionLabel from './primitives/SectionLabel'
 
 export default function FinalCTA() {
   return (
-    <section id="kontakt" className="relative bg-[var(--color-cream)] py-28 md:py-40 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid md:grid-cols-12 items-center gap-10">
-        <div className="md:col-span-7 relative z-10">
-          <RevealText as="div">
-            <SectionLabel>Gotowa na swój wyjątkowy tort?</SectionLabel>
-          </RevealText>
-          <RevealText as="h2" delay={80} className="mt-5">
-            <span
-              className="block font-playfair text-[var(--color-plum)]"
-              style={{ fontSize: 'clamp(56px, 9vw, 130px)', lineHeight: 0.92 }}
-            >
-              Masz pomysł?
-            </span>
-          </RevealText>
-          <RevealText as="p" delay={160} className="mt-3">
-            <span
-              className="block text-rose-500"
-              style={{ fontFamily: 'var(--font-script)', fontSize: 'clamp(34px, 5vw, 60px)' }}
-            >
-              Napisz do mnie.
-            </span>
-          </RevealText>
-          <RevealText as="div" delay={240} className="mt-10">
-            <a
-              href="tel:730042213"
-              className="inline-block bg-rose-500 text-white text-sm font-semibold tracking-[0.15em] uppercase px-10 py-4 rounded-full hover:bg-rose-600 transition-colors shadow-lg"
-            >
-              Zapytaj o termin →
-            </a>
-            <p className="mt-6 text-[var(--color-plum)]/60 text-sm">
-              730 042 213 &nbsp;·&nbsp; ul. Wrzosowa 2, 64-917 Skórka
-            </p>
-          </RevealText>
-        </div>
+    <section
+      id="kontakt"
+      className="relative overflow-hidden flex items-center"
+      style={{
+        minHeight: 'clamp(560px, 78vh, 900px)',
+        background: 'linear-gradient(160deg, var(--color-plum) 0%, #33131f 100%)',
+      }}
+    >
+      <div className="relative z-10 max-w-[1500px] mx-auto px-6 md:px-12 w-full py-20">
+        <RevealText as="div">
+          <p className="text-[11px] md:text-xs font-semibold tracking-[0.3em] uppercase text-[var(--color-blush-deep)]">
+            Gotowa na swój wyjątkowy tort?
+          </p>
+        </RevealText>
 
-        <div className="md:col-span-5 flex justify-center md:justify-end relative">
-          <CakeCutout
-            src={cake}
-            alt="Wysoki różowo-biały tort piętrowy z kwiatami"
-            className="w-[260px] sm:w-[320px] md:w-[420px]"
-          />
+        <div className="mt-6 md:mt-8 grid md:grid-cols-12 gap-x-8 gap-y-10 items-end">
+          <div className="md:col-span-8">
+            <RevealText as="h2" delay={80}>
+              <span
+                className="block font-playfair text-[var(--color-cream)]"
+                style={{ fontSize: 'clamp(4rem, 11vw, 11rem)', lineHeight: 0.85, letterSpacing: '-0.02em' }}
+              >
+                Masz<br />pomysł?
+              </span>
+            </RevealText>
+            <RevealText as="p" delay={160} className="mt-4 md:mt-6">
+              <span
+                className="block text-rose-300"
+                style={{ fontFamily: 'var(--font-script)', fontSize: 'clamp(34px, 5vw, 58px)' }}
+              >
+                Napisz do mnie.
+              </span>
+            </RevealText>
+          </div>
+
+          <div className="md:col-span-4 md:border-l md:border-[var(--color-blush-deep)]/25 md:pl-8">
+            <RevealText as="div" delay={260}>
+              <a
+                href="tel:730042213"
+                className="inline-flex items-center gap-2 text-sm md:text-base font-semibold tracking-[0.15em] uppercase text-[var(--color-cream)] border-b border-rose-300/60 pb-1 hover:text-rose-300 hover:border-rose-300 transition-colors"
+              >
+                Zapytaj o termin
+                <span aria-hidden>→</span>
+              </a>
+              <p className="mt-6 text-[var(--color-blush-deep)]/80 text-sm leading-relaxed">
+                730 042 213<br />
+                ul. Wrzosowa 2, 64-917 Skórka
+              </p>
+            </RevealText>
+          </div>
         </div>
       </div>
     </section>

@@ -1,3 +1,6 @@
+import RevealText from './primitives/RevealText'
+import SectionLabel from './primitives/SectionLabel'
+
 const standardowe = [
   { porcje: '10–12 porcji', cena: 'od 280 zł' },
   { porcje: '15 porcji',    cena: 'od 330 zł' },
@@ -31,132 +34,132 @@ const kremyPrawy = [
 
 function PriceRow({ porcje, cena }) {
   return (
-    <div className="flex items-center justify-between bg-white rounded-xl px-5 py-3 shadow-sm border border-pink-100">
-      <span className="text-gray-700 font-medium">{porcje}</span>
-      <span className="text-rose-600 font-bold whitespace-nowrap ml-4">{cena}</span>
+    <div className="flex items-baseline justify-between gap-4 py-3 border-b border-rose-200/60 last:border-b-0">
+      <span className="text-[var(--color-plum)]/85">{porcje}</span>
+      <span className="text-rose-600 font-semibold whitespace-nowrap text-right">{cena}</span>
     </div>
+  )
+}
+
+function CategoryLabel({ n }) {
+  return (
+    <p className="text-[11px] font-semibold tracking-[0.25em] text-rose-400/80 mb-2">
+      {n}
+    </p>
   )
 }
 
 export default function Cennik() {
   return (
-    <section id="cennik" className="py-24 bg-white">
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="cennik" className="bg-[var(--color-cream)] py-20 md:py-28">
+      <div className="max-w-3xl mx-auto px-6 md:px-12">
 
-        {/* Nagłówek */}
-        <div className="text-center mb-14">
-          <p className="text-rose-500 font-semibold tracking-widest uppercase text-sm mb-3">
-            Przejrzyste ceny
-          </p>
-          <h2 className="font-playfair text-4xl md:text-5xl text-gray-800 mb-4">
+        {/* Intro */}
+        <RevealText as="div">
+          <SectionLabel>Przejrzyste ceny</SectionLabel>
+        </RevealText>
+        <RevealText as="h2" delay={80} className="mt-4">
+          <span
+            className="block font-playfair text-[var(--color-plum)]"
+            style={{ fontSize: 'clamp(36px, 4.6vw, 56px)', lineHeight: 1 }}
+          >
             Cennik
-          </h2>
-          <p className="text-gray-500 max-w-lg mx-auto text-sm">
+          </span>
+        </RevealText>
+        <RevealText as="p" delay={140} className="mt-5">
+          <span className="block text-[var(--color-plum)]/70 leading-relaxed max-w-lg">
             Podane kwoty to ceny minimalne — finalna wycena zależy od wybranego
             smaku, dekoracji i stopnia skomplikowania.
-          </p>
-        </div>
+          </span>
+        </RevealText>
 
         {/* Torty standardowe + piętrowe */}
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-
-          <div className="bg-pink-50 rounded-3xl p-7">
-            <h3 className="font-playfair text-2xl text-rose-700 mb-5 text-center">
+        <RevealText as="div" delay={200} className="mt-16 md:mt-20 grid md:grid-cols-2 gap-x-16 gap-y-12">
+          <div>
+            <CategoryLabel n="01" />
+            <h3 className="font-playfair text-[var(--color-plum)] mb-2" style={{ fontSize: 'clamp(28px, 2.6vw, 34px)' }}>
               Torty standardowe
             </h3>
-            <div className="space-y-2">
-              {standardowe.map(r => <PriceRow key={r.porcje} {...r} />)}
+            <div className="mt-4">
+              {standardowe.map((r) => <PriceRow key={r.porcje} {...r} />)}
             </div>
           </div>
 
-          <div className="bg-rose-50 rounded-3xl p-7">
-            <h3 className="font-playfair text-2xl text-rose-700 mb-5 text-center">
+          <div>
+            <CategoryLabel n="02" />
+            <h3 className="font-playfair text-[var(--color-plum)] mb-2" style={{ fontSize: 'clamp(28px, 2.6vw, 34px)' }}>
               Torty piętrowe
             </h3>
-            <div className="space-y-2">
-              {pietrowe.map(r => <PriceRow key={r.porcje} {...r} />)}
+            <div className="mt-4">
+              {pietrowe.map((r) => <PriceRow key={r.porcje} {...r} />)}
             </div>
           </div>
-
-        </div>
+        </RevealText>
 
         {/* Dodatkowo płatne */}
-        <div className="bg-pink-100 rounded-3xl p-7 text-center mb-8">
-          <h3 className="font-playfair text-xl text-rose-700 mb-3">
-            Dodatkowo płatne:
-          </h3>
-          <p className="text-gray-700 font-semibold uppercase tracking-wide text-sm">
+        <RevealText as="div" delay={260} className="mt-14 md:mt-16 pt-8 border-t border-rose-300/50">
+          <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-rose-500/80 mb-2">
+            Dodatkowo płatne
+          </p>
+          <p className="text-[var(--color-plum)]/75 leading-relaxed">
             Figurki lepione własnoręcznie, toppery, kwiaty, słodkie wydruki.
           </p>
-        </div>
+        </RevealText>
 
-        {/* Biszkopt + Frużelina + Kremy */}
-        <div className="grid md:grid-cols-3 gap-8 mb-10">
+        {/* Biszkopt / Frużelina / Smaki kremów */}
+        <RevealText as="div" delay={320} className="mt-14 md:mt-16">
+          <CategoryLabel n="03" />
+          <div className="grid sm:grid-cols-3 gap-x-10 gap-y-8 mt-4">
+            <div>
+              <h4 className="font-playfair text-[var(--color-plum)] text-xl mb-3">Biszkopt</h4>
+              <p className="text-[var(--color-plum)]/70 text-sm">Waniliowy lub czekoladowy</p>
+            </div>
 
-          {/* Biszkopt */}
-          <div className="bg-white rounded-3xl border border-pink-100 shadow-sm p-7">
-            <h3 className="font-playfair text-xl text-rose-700 mb-4 text-center">
-              Biszkopt
-            </h3>
-            <p className="text-center text-gray-500 text-sm uppercase tracking-wide font-semibold">
-              Waniliowy lub czekoladowy
-            </p>
-          </div>
-
-          {/* Frużelina/Żelki */}
-          <div className="bg-white rounded-3xl border border-pink-100 shadow-sm p-7">
-            <h3 className="font-playfair text-xl text-rose-700 mb-4 text-center">
-              Frużelina / Żelki
-            </h3>
-            <ul className="space-y-1 text-center">
-              {['Malina', 'Truskawka', 'Wiśnia', 'Owoce leśne', 'Borówka'].map(s => (
-                <li key={s} className="text-gray-600 text-sm uppercase tracking-wide font-medium">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Smaki kremów */}
-          <div className="bg-white rounded-3xl border border-pink-100 shadow-sm p-7">
-            <h3 className="font-playfair text-xl text-rose-700 mb-4 text-center">
-              Smaki kremów
-            </h3>
-            <div className="grid grid-cols-2 gap-x-4">
+            <div>
+              <h4 className="font-playfair text-[var(--color-plum)] text-xl mb-3">Frużelina / Żelki</h4>
               <ul className="space-y-1">
-                {kremyLewy.map(k => (
-                  <li key={k} className="text-gray-600 text-xs uppercase tracking-wide font-medium leading-snug">
-                    {k}
-                  </li>
-                ))}
-              </ul>
-              <ul className="space-y-1">
-                {kremyPrawy.map(k => (
-                  <li key={k} className="text-gray-600 text-xs uppercase tracking-wide font-medium leading-snug">
-                    {k}
-                  </li>
+                {['Malina', 'Truskawka', 'Wiśnia', 'Owoce leśne', 'Borówka'].map((s) => (
+                  <li key={s} className="text-[var(--color-plum)]/70 text-sm">{s}</li>
                 ))}
               </ul>
             </div>
-          </div>
 
-        </div>
+            <div>
+              <h4 className="font-playfair text-[var(--color-plum)] text-xl mb-3">Smaki kremów</h4>
+              <div className="grid grid-cols-2 gap-x-4">
+                <ul className="space-y-1">
+                  {kremyLewy.map((k) => (
+                    <li key={k} className="text-[var(--color-plum)]/70 text-sm leading-snug">{k}</li>
+                  ))}
+                </ul>
+                <ul className="space-y-1">
+                  {kremyPrawy.map((k) => (
+                    <li key={k} className="text-[var(--color-plum)]/70 text-sm leading-snug">{k}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </RevealText>
 
         {/* Godziny pracy */}
-        <div className="bg-rose-500 rounded-3xl p-7 text-white text-center mb-6">
-          <h3 className="font-playfair text-xl mb-3">Godziny pracy</h3>
-          <p className="font-bold tracking-wide uppercase text-sm">
+        <RevealText as="div" delay={380} className="mt-14 md:mt-16 py-6 border-y border-rose-300/50 text-center">
+          <p className="text-[11px] font-semibold tracking-[0.25em] uppercase text-rose-500/80 mb-2">
+            Godziny pracy
+          </p>
+          <p className="text-[var(--color-plum)]/80">
             Pon.–Pt.&nbsp; 9:00–17:00 &nbsp;·&nbsp; Sob.&nbsp; 9:00–13:00 &nbsp;·&nbsp; Nd.&nbsp; Nieczynne
           </p>
-        </div>
+        </RevealText>
 
         {/* Dane firmy */}
-        <div className="text-center text-sm text-gray-500 space-y-1">
-          <p className="font-semibold text-gray-700">Słodki Zakątek Agnieszka Włodarczyk</p>
-          <p>ul. Wrzosowa 2, 64-917 Skórka &nbsp;·&nbsp; tel.&nbsp;
+        <div className="mt-10 text-center text-sm text-[var(--color-plum)]/60 space-y-1">
+          <p className="font-semibold text-[var(--color-plum)]/80">Słodki Zakątek Agnieszka Włodarczyk</p>
+          <p>
+            ul. Wrzosowa 2, 64-917 Skórka &nbsp;·&nbsp; tel.&nbsp;
             <a href="tel:730042213" className="text-rose-500 hover:underline">730 042 213</a>
           </p>
-          <p className="text-xs text-gray-400 uppercase tracking-wide pt-1">
+          <p className="text-xs text-[var(--color-plum)]/40 uppercase tracking-wide pt-1">
             Cennik obowiązuje od 1 listopada 2025 r.
           </p>
         </div>
