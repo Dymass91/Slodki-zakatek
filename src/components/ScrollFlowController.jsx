@@ -14,29 +14,60 @@ function getTop(id) {
   return el ? el.getBoundingClientRect().top + window.scrollY : null
 }
 
-function smoothScrollTo(targetY, instant, onDone) {
-  const startY = window.scrollY
-  const distance = targetY - startY
-  if (instant || Math.abs(distance) < 1) {
-    window.scrollTo(0, targetY)
-    onDone()
-    return
-  }
-  const duration = 650
-  const start = performance.now()
-  const ease = (t) => 1 - Math.pow(1 - t, 3)
+// The page sets a global `scroll-behavior: smooth` (for organic anchor-link scrolling
+// elsewhere). Because window.scrollTo()'s default `behavior` is "auto" — which itself
+// defers to the element's CSS scroll-behavior — every per-frame scrollTo() call in the
+// animation loop below was ALSO being smooth-animated by the browser on top of our own
+// easing, so two independent animations fought each other and could resolve the scroll
+// anywhere. Force the html/body to `scroll-behavior: auto` for the duration of any
+// controlled jump so our manual rAF stepping is the only thing moving the page, then
+// hard-snap to the exact target and restore the CSS afterward.
+function withInstantScrollBehavior(run) {
+  const html = document.documentElement
+  const body = document.body
+  const prevHtml = html.style.scrollBehavior
+  const prevBody = body.style.scrollBehavior
+  html.style.scrollBehavior = 'auto'
+  body.style.scrollBehavior = 'auto'
+  run(() => {
+    html.style.scrollBehavior = prevHtml
+    body.style.scrollBehavior = prevBody
+  })
+}
 
-  function step(now) {
-    const elapsed = now - start
-    const t = Math.min(1, elapsed / duration)
-    window.scrollTo(0, startY + distance * ease(t))
-    if (t < 1) {
-      requestAnimationFrame(step)
-    } else {
+function smoothScrollTo(targetY, instant, onDone) {
+  withInstantScrollBehavior((restore) => {
+    const finish = () => {
+      // Hard-correct to the exact destination regardless of any rounding/interruption,
+      // so a controlled jump can never resolve to an arbitrary in-between position.
+      window.scrollTo(0, targetY)
+      restore()
       onDone()
     }
-  }
-  requestAnimationFrame(step)
+
+    const startY = window.scrollY
+    const distance = targetY - startY
+    if (instant || Math.abs(distance) < 1) {
+      finish()
+      return
+    }
+
+    const duration = 650
+    const start = performance.now()
+    const ease = (t) => 1 - Math.pow(1 - t, 3)
+
+    function step(now) {
+      const elapsed = now - start
+      const t = Math.min(1, elapsed / duration)
+      if (t < 1) {
+        window.scrollTo(0, startY + distance * ease(t))
+        requestAnimationFrame(step)
+      } else {
+        finish()
+      }
+    }
+    requestAnimationFrame(step)
+  })
 }
 
 export default function ScrollFlowController() {
@@ -64,7 +95,7 @@ export default function ScrollFlowController() {
 
       const panelHeight = Math.max(window.innerHeight, 560)
       const manifestoTop = stackTop
-      const weddingTop = stackTop + panelHeight * 1.5
+      const weddingTop = stackTop + panelHeight
       const custom03Top = stackTop + panelHeight * 3
       const y = window.scrollY
 

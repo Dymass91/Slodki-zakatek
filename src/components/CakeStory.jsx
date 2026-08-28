@@ -63,7 +63,7 @@ function WeddingScene() {
               style={{ fontSize: 'clamp(40px, 5vw, 76px)', lineHeight: 0.95, letterSpacing: '-0.01em' }}
             >
               {['Dla chwil,', 'które zostają.'].map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+                <span key={line} className="block overflow-hidden" style={{ paddingBottom: "0.16em" }}>
                   <span
                     className="block"
                     style={{
@@ -110,7 +110,7 @@ function WeddingScene() {
             style={{ fontSize: 'clamp(44px, 12vw, 60px)', lineHeight: 0.95, letterSpacing: '-0.01em' }}
           >
             {['Dla chwil,', 'które zostają.'].map((line, i) => (
-              <span key={line} className="block overflow-hidden">
+              <span key={line} className="block overflow-hidden" style={{ paddingBottom: "0.16em" }}>
                 <span
                   className="block"
                   style={{
@@ -190,7 +190,7 @@ function CustomScene() {
               style={{ fontSize: 'clamp(44px, 5.5vw, 80px)', lineHeight: 1, letterSpacing: '-0.01em', color: 'var(--color-cream)' }}
             >
               {heading.map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+                <span key={line} className="block overflow-hidden" style={{ paddingBottom: "0.16em" }}>
                   <span
                     className="block"
                     style={{
@@ -238,7 +238,7 @@ function CustomScene() {
             style={{ fontSize: 'clamp(40px, 11vw, 54px)', lineHeight: 1, letterSpacing: '-0.01em', color: 'var(--color-cream)' }}
           >
             {heading.map((line, i) => (
-              <span key={line} className="block overflow-hidden">
+              <span key={line} className="block overflow-hidden" style={{ paddingBottom: "0.16em" }}>
                 <span
                   className="block"
                   style={{
@@ -296,7 +296,7 @@ function ColorfulScene() {
         }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-          <div className="max-w-md lg:pl-4">
+          <div className="max-w-2xl lg:max-w-3xl lg:pl-4">
             <p
               className="text-xs font-semibold tracking-[0.3em] uppercase text-rose-500/80 mb-5"
               style={{
@@ -309,10 +309,10 @@ function ColorfulScene() {
             </p>
             <h3
               className="font-playfair text-[var(--color-plum)] whitespace-nowrap"
-              style={{ fontSize: 'clamp(44px, 5.5vw, 80px)', lineHeight: 1, letterSpacing: '-0.01em' }}
+              style={{ fontSize: 'clamp(44px, 5.2vw, 72px)', lineHeight: 1, letterSpacing: '-0.01em' }}
             >
               {heading.map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+                <span key={line} className="block overflow-hidden" style={{ paddingBottom: '0.16em' }}>
                   <span
                     className="block"
                     style={{
@@ -365,7 +365,7 @@ function ColorfulScene() {
             style={{ fontSize: 'clamp(40px, 11vw, 54px)', lineHeight: 1, letterSpacing: '-0.01em' }}
           >
             {heading.map((line, i) => (
-              <span key={line} className="block overflow-hidden">
+              <span key={line} className="block overflow-hidden" style={{ paddingBottom: "0.16em" }}>
                 <span
                   className="block"
                   style={{

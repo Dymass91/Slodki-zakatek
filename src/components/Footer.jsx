@@ -1,3 +1,5 @@
+import logo from '../assets/logo-mark.png'
+
 const navLinks = [
   { href: '#o-nas', label: 'O nas' },
   { href: '#proces', label: 'Proces' },
@@ -21,12 +23,12 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', fontWeight: 600, fontSize: '1.2rem', color: 'var(--color-cream)', letterSpacing: '0.01em', lineHeight: 1 }}>
-            Słodki Zakątek
-          </div>
-          <div style={{ fontFamily: "'Lato', Arial, sans-serif", fontSize: '0.56rem', color: 'var(--color-blush-deep)', opacity: 0.7, letterSpacing: '0.28em', textTransform: 'uppercase', marginTop: '6px' }}>
-            Agnieszka Włodarczyk
-          </div>
+          <img
+            src={logo}
+            alt="Słodki Zakątek — Agnieszka Włodarczyk"
+            className="w-[180px] md:w-[220px] h-auto object-contain"
+            draggable={false}
+          />
           <p className="text-sm text-[var(--color-blush-deep)]/70 leading-relaxed mt-4 max-w-[24ch]">
             Ręcznie robione torty z miłością. Skórka i okolice, od 2019 roku.
           </p>
