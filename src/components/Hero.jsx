@@ -118,10 +118,10 @@ export default function Hero() {
               marginLeft: 'clamp(0px, 6vw, 96px)',
             }}
           >
-            <span className="block overflow-hidden">
+            <span className="block overflow-hidden" style={{ paddingBottom: '0.18em' }}>
               <span className="block" style={lineStyle(160)}>Torty,</span>
             </span>
-            <span className="block overflow-hidden">
+            <span className="block overflow-hidden" style={{ paddingBottom: '0.18em' }}>
               <span className="block" style={lineStyle(250)}>które zostają</span>
             </span>
             <span className="block overflow-hidden" style={{ paddingBottom: '0.18em' }}>
