@@ -28,7 +28,7 @@
   --color-cream: #fff9f5;
 }
 
-* {
+html {
   scroll-behavior: smooth;
 }
 

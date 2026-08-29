@@ -70,6 +70,7 @@ export default function Manifesto() {
           (scaled up + cropped so the cake reads large, right side, allowed to bleed off-edge),
           with the HTML typography layered directly on top. Not a banner + text stack. */}
       <div
+        id="scene-manifesto-m"
         ref={fadeRef}
         className="md:hidden relative overflow-hidden"
         style={{
