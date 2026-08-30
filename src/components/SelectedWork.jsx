@@ -2,28 +2,42 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import RevealText from './primitives/RevealText'
 import SectionLabel from './primitives/SectionLabel'
 import useReveal from '../hooks/useReveal'
+import galleryDimensions from '../assets/gallery-dimensions.json'
 
 // Full portfolio archive — every real realization photo in the project, not a curated set.
+// `eager: true` only registers the resolved URL string for each asset (no network / no
+// decode happens here); the actual image fetch is gated per-thumbnail below by
+// conditional rendering (only `visibleCount` items mount) plus loading="lazy".
 const globbed = import.meta.glob('../assets/tort*.jpg', { eager: true })
-const photos = Object.values(globbed).map((m) => m.default)
+// Preserve the existing glob ordering; attach each photo's real intrinsic size so the
+// browser can reserve correct space before the image loads (no masonry reflow / CLS).
+const photos = Object.entries(globbed).map(([path, mod]) => {
+  const name = path.slice(path.lastIndexOf('/') + 1)
+  const dims = galleryDimensions[name]
+  return { src: mod.default, w: dims ? dims[0] : 4, h: dims ? dims[1] : 3 }
+})
 
 const PAGE_SIZE = 12
 
-function GalleryItem({ src, onClick }) {
+function GalleryItem({ photo, index, onOpen }) {
   const [ref, visible] = useReveal({ threshold: 0.05 })
   return (
     <button
       ref={ref}
-      onClick={onClick}
+      onClick={(e) => onOpen(index, e.currentTarget)}
       className={`group relative block w-full mb-3 md:mb-5 overflow-hidden reveal ${visible ? 'is-visible' : ''}`}
       style={{ breakInside: 'avoid', transitionDuration: '0.6s' }}
-      aria-label="Powiększ realizację"
+      aria-label={`Powiększ realizację ${index + 1}`}
     >
       <img
-        src={src}
-        alt="Realizacja Słodki Zakątek"
+        src={photo.src}
+        alt={`Realizacja Słodki Zakątek ${index + 1}`}
+        width={photo.w}
+        height={photo.h}
         loading="lazy"
+        decoding="async"
         draggable={false}
+        style={{ aspectRatio: `${photo.w} / ${photo.h}` }}
         className="w-full h-auto block transition-transform duration-700 ease-out group-hover:scale-[1.02]"
       />
       <span
@@ -36,27 +50,62 @@ function GalleryItem({ src, onClick }) {
   )
 }
 
-function Lightbox({ index, setIndex, total }) {
+function Lightbox({ index, setIndex, total, restoreFocusRef }) {
+  const containerRef = useRef(null)
   const close = useCallback(() => setIndex(null), [setIndex])
   const prev = useCallback(() => setIndex((i) => (i - 1 + total) % total), [setIndex, total])
   const next = useCallback(() => setIndex((i) => (i + 1) % total), [setIndex, total])
 
+  // Lock background scroll, saving/restoring the exact previous value.
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') close()
-      if (e.key === 'ArrowLeft') prev()
-      if (e.key === 'ArrowRight') next()
-    }
-    window.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
+      document.body.style.overflow = prevOverflow
     }
+  }, [])
+
+  // Move focus into the dialog on open; restore it to the opening thumbnail on close.
+  useEffect(() => {
+    const opener = restoreFocusRef?.current
+    containerRef.current?.querySelector('button')?.focus()
+    return () => {
+      if (opener && typeof opener.focus === 'function') opener.focus()
+    }
+  }, [restoreFocusRef])
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') { close(); return }
+      if (e.key === 'ArrowLeft') { prev(); return }
+      if (e.key === 'ArrowRight') { next(); return }
+      if (e.key === 'Tab') {
+        const f = containerRef.current?.querySelectorAll('button')
+        if (!f || !f.length) return
+        const first = f[0]
+        const last = f[f.length - 1]
+        if (!containerRef.current.contains(document.activeElement)) {
+          e.preventDefault()
+          first.focus()
+        } else if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [close, prev, next])
 
   return (
     <div
+      ref={containerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Realizacja ${index + 1} z ${total}`}
       className="fixed inset-0 z-[80] flex items-center justify-center px-4"
       style={{ background: 'rgba(45,15,26,0.94)' }}
       onClick={close}
@@ -76,8 +125,8 @@ function Lightbox({ index, setIndex, total }) {
         ‹
       </button>
       <img
-        src={photos[index]}
-        alt="Realizacja Słodki Zakątek"
+        src={photos[index].src}
+        alt={`Realizacja Słodki Zakątek ${index + 1}`}
         className="max-h-[86vh] max-w-[90vw] object-contain select-none"
         onClick={(e) => e.stopPropagation()}
         draggable={false}
@@ -97,6 +146,12 @@ export default function SelectedWork() {
   const [openIndex, setOpenIndex] = useState(null)
   const [visibleCount, setVisibleCount] = useState(Math.min(PAGE_SIZE, photos.length))
   const galleryRef = useRef(null)
+  const openerRef = useRef(null)
+
+  const handleOpen = (i, el) => {
+    openerRef.current = el
+    setOpenIndex(i)
+  }
 
   const allShown = visibleCount >= photos.length
 
@@ -131,8 +186,8 @@ export default function SelectedWork() {
       {/* Editorial masonry archive — natural aspect ratios via CSS columns, no cards/borders/shadows */}
       <div ref={galleryRef} className="max-w-[1600px] mx-auto px-4 md:px-8 mt-4 md:mt-8">
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 md:gap-5">
-          {photos.slice(0, visibleCount).map((src, i) => (
-            <GalleryItem key={src} src={src} onClick={() => setOpenIndex(i)} />
+          {photos.slice(0, visibleCount).map((photo, i) => (
+            <GalleryItem key={photo.src} photo={photo} index={i} onOpen={handleOpen} />
           ))}
         </div>
 
@@ -150,7 +205,12 @@ export default function SelectedWork() {
       </div>
 
       {openIndex !== null && (
-        <Lightbox index={openIndex} setIndex={setOpenIndex} total={photos.length} />
+        <Lightbox
+          index={openIndex}
+          setIndex={setOpenIndex}
+          total={photos.length}
+          restoreFocusRef={openerRef}
+        />
       )}
     </section>
   )
