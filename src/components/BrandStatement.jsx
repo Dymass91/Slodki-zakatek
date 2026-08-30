@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import artwork from '../assets/brand-statement-artwork.png'
+import artwork from '../assets/brand-statement-artwork.webp'
 
 export default function BrandStatement() {
   const ref = useRef(null)

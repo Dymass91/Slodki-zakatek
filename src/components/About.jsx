@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import artwork from '../assets/about-scene-artwork.png'
+import artwork from '../assets/about-scene-artwork.webp'
 import RevealText from './primitives/RevealText'
 import SectionLabel from './primitives/SectionLabel'
 

@@ -1,4 +1,4 @@
-import artwork from '../assets/manifesto-artwork.png'
+import artwork from '../assets/manifesto-artwork.webp'
 import RevealText from './primitives/RevealText'
 import SectionLabel from './primitives/SectionLabel'
 import useSceneFade from '../hooks/useSceneFade'

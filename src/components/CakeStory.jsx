@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import weddingArtwork from '../assets/wedding-scene-artwork.png'
-import customArtwork from '../assets/custom-scene-artwork.png'
-import colorfulArtwork from '../assets/colorful-scene-artwork.png'
+import weddingArtwork from '../assets/wedding-scene-artwork.webp'
+import customArtwork from '../assets/custom-scene-artwork.webp'
+import colorfulArtwork from '../assets/colorful-scene-artwork.webp'
 import useSceneFade from '../hooks/useSceneFade'
 
 // Wedding scene is fully art-directed: the prepared artwork already contains the real

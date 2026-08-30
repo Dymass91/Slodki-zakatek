@@ -1,6 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import heroArtwork from '../assets/hero-artwork.png'
+import heroArtwork from '../assets/hero-artwork.webp'
 import useSceneFade from '../hooks/useSceneFade'
+
+// The hero background is a CSS background-image, so the browser only discovers it after
+// CSS is parsed. Preload it as early as the module loads so it starts downloading in
+// parallel with the JS/CSS and paints as fast as possible.
+if (typeof document !== 'undefined' && !document.querySelector('link[data-hero-preload]')) {
+  const l = document.createElement('link')
+  l.rel = 'preload'
+  l.as = 'image'
+  l.href = heroArtwork
+  l.setAttribute('fetchpriority', 'high')
+  l.setAttribute('data-hero-preload', '')
+  document.head.appendChild(l)
+}
 
 export default function Hero() {
   const ref = useRef(null)
